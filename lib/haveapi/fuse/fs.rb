@@ -31,81 +31,45 @@ module HaveAPI::Fuse
       puts "contents"
       p path
 
-      find_component(path).contents
-
-    rescue => e
-      puts "Exception!"
-      puts e.class.name
-      puts e.backtrace.join("\n")
-
-      raise Errno::EIO, e.message
+      guard do
+        find_component(path).contents
+      end
     end
 
     def directory?(path)
       puts "directory?"
       p path
-      
-      find_component(path).directory?
-
-    rescue => e
-      puts "Exception!"
-      puts e.class.name
-      puts e.backtrace.join("\n")
-
-      raise Errno::EIO, e.message
+    
+      guard do
+        find_component(path).directory?
+      end
     end
 
     def file?(path)
       puts "file?"
       p path
-
-      !directory?(path)
-
-    rescue => e
-      puts "Exception!"
-      puts e.backtrace.join("\n")
-
-      raise Errno::EIO, e.message
-    end
-
-    def can_write?(path)
-      puts "can_write?"
-      p path
-
-      find_component(path).writable?
-
-    rescue => e
-      puts "Exception!"
-      puts e.backtrace.join("\n")
-
-      raise Errno::EIO, e.message
+    
+      guard do
+        find_component(path).file?
+      end
     end
 
     def read_file(path)
       puts "read_file"
       p path
-      
-      find_component(path).read
     
-    rescue => e
-      puts "Exception!"
-      puts e.class.name
-      puts e.backtrace.join("\n")
-
-      raise Errno::EIO, e.message
+      guard do
+        find_component(path).read
+      end
     end
 
     def write_to(path, str)
       puts "write_to"
       p path
 
-      find_component(path).write(str)
-
-    rescue => e
-      puts "Exception!"
-      puts e.backtrace.join("\n")
-
-      raise Errno::EIO, e.message
+      guard do
+        find_component(path).write(str)
+      end
     end
 
     protected
@@ -132,6 +96,19 @@ module HaveAPI::Fuse
 
         next(tmp)
       end
+    end
+
+    def guard
+      yield
+
+    rescue => e
+      raise e if e.is_a?(::SystemCallError)
+
+      warn "Exception #{e.class}"
+      warn e.backtrace.join("\n")
+      warn e.message
+
+      raise Errno::EIO, e.message
     end
 
     def abspath(path)
