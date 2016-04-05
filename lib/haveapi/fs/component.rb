@@ -50,5 +50,9 @@ module HaveAPI::Fs
     def new_child(name)
       raise NotImplementedError
     end
+
+    def drop_children
+      @children.clear
+    end
   end
 end

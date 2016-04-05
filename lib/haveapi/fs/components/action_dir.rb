@@ -3,37 +3,24 @@ module HaveAPI::Fs::Components
     attr_reader :resource, :action, :status, :input, :output
 
     def initialize(resource, action)
+      super()
+      
       @resource = resource
       @action = action
-      @status = ActionStatus.new(self)
-      @input = ActionInput.new(self)
-      @output = ActionOutput.new(self)
-      @exec = ActionExec.new(self)
 
-      super()
+      setup
     end
-    
-    def find(name)
-      case name
-      when :input
-        @input
 
-      when :output
-        @output
-
-      when :status
-        @status
-
-      when :exec
-        @exec
-
-      else
-        nil
-      end
+    def setup
+      children[:status] = ActionStatus.new(self)
+      children[:input] = ActionInput.new(self)
+      children[:output] = ActionOutput.new(self)
+      children[:exec] = ActionExec.new(self)
+      children[:reset] = ActionReset.new(self)
     end
 
     def contents
-      %w(input output status exec)
+      %w(input output status exec reset)
     end
 
     def exec
@@ -79,6 +66,16 @@ module HaveAPI::Fs::Components
 
       puts "action failed, meh"
       p e.message
+    end
+
+    def reset
+      drop_children
+      setup
+    end
+
+    protected
+    def new_child(name)
+      nil
     end
   end
 end
