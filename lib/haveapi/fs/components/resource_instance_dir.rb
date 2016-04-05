@@ -1,4 +1,4 @@
-module HaveAPI::Fs
+module HaveAPI::Fs::Components
   class ResourceInstanceDir < ResourceDir
     def contents
       %w(actions) + subresources.map(&:to_s) + \

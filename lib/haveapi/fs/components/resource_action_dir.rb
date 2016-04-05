@@ -1,4 +1,4 @@
-module HaveAPI::Fs
+module HaveAPI::Fs::Components
   class ResourceActionDir < Directory
     def initialize(r)
       @resource = r

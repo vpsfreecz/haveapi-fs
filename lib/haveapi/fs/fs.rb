@@ -24,7 +24,7 @@ module HaveAPI::Fs
       @path_cache = Cache.new
 
       @check_file = FuseFS::Fuse::Root::CHECK_FILE[1..-1].to_sym
-      @root = Root.new(@api)
+      @root = Components::Root.new(@api)
     end
 
     def contents(path)

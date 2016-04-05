@@ -1,4 +1,4 @@
-module HaveAPI::Fs
+module HaveAPI::Fs::Components
   class ActionOutput < Directory
     attr_reader :action_dir
     attr_accessor :data

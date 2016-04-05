@@ -1,4 +1,4 @@
-module HaveAPI::Fs
+module HaveAPI::Fs::Components
   class ListItem < Directory
     def initialize(action, dir, data)
       super()

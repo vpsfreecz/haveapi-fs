@@ -1,4 +1,4 @@
-module HaveAPI::Fs
+module HaveAPI::Fs::Components
   class ActionExec < File
     def initialize(action_dir)
       super()

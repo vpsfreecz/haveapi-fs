@@ -1,4 +1,6 @@
 module HaveAPI::Fs
+  module Components ; end
+
   class Component
     def initialize
       @children = {}

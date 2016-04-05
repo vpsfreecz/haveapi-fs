@@ -1,4 +1,4 @@
-module HaveAPI::Fs
+module HaveAPI::Fs::Components
   class ActionDir < Directory
     attr_reader :resource, :action, :status, :input, :output
 
