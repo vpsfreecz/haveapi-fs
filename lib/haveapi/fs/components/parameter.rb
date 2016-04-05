@@ -2,12 +2,13 @@ require 'time'
 
 module HaveAPI::Fs::Components
   class Parameter < File
-    def initialize(action, name, dir, value = nil, editable: nil)
+    def initialize(action, name, dir, value = nil, editable: nil, mirror: nil)
       @action = action
       @name = name
       @dir = dir
       @value = value
       @set = false
+      @mirror = mirror
       
       if dir == :input
         @params = @action.input_params
@@ -41,6 +42,7 @@ module HaveAPI::Fs::Components
 
       if str.empty?
         @new_value = nil
+        @mirror.write_safe(@new_value) if @mirror
         return
       end
 
@@ -63,10 +65,17 @@ module HaveAPI::Fs::Components
       else
         str.strip
       end
+
+      @mirror.write_safe(@new_value) if @mirror
       
     rescue => e
       @set = false
       raise e
+    end
+
+    def write_safe(v)
+      @new_value = v
+      @set = true
     end
 
     def value

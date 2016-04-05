@@ -1,8 +1,22 @@
 module HaveAPI::Fs::Components
   class ResourceInstanceDir < ResourceDir
+    def initialize(*args)
+      super(*args)
+
+      @update = find(:actions).find(:update)
+      children[:save] = SaveInstance.new(self) if @update
+    end
+
     def contents
-      %w(actions) + subresources.map(&:to_s) + \
-      (@resource.attributes.keys.map(&:to_s) - %w(_meta))
+      ret = %w(actions)
+      ret.concat(subresources.map(&:to_s))
+      ret.concat(@resource.attributes.keys.map(&:to_s) - %w(_meta))
+      ret << 'save' if @update
+      ret
+    end
+
+    def save
+      @update.exec
     end
 
     protected
@@ -18,7 +32,16 @@ module HaveAPI::Fs::Components
           ResourceInstanceDir.new(@resource.send(name))
 
         else
-          Parameter.new(@resource.actions[:show], name, :output, @resource)
+          editable = @update.nil? ? false : @update.action.input_params.has_key?(name)
+
+          Parameter.new(
+              @resource.actions[:show],
+              name,
+              :output,
+              @resource,
+              editable: editable,
+              mirror: editable && @update.find(:input).find(name),
+          )
         end
 
       else
