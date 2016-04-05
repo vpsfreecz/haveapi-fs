@@ -1,4 +1,4 @@
-module HaveAPI::Fuse
+module HaveAPI::Fs
   class File < Component
     def file?
       true

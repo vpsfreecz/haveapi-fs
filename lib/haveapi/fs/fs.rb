@@ -3,7 +3,7 @@ $:.insert(0, '/home/aither/workspace/vpsfree.cz/dev1.orion/haveapi-client/lib')
 require 'rfusefs'
 require 'haveapi/client'
 
-module HaveAPI::Fuse
+module HaveAPI::Fs
   class Fs
     def initialize(opts)
       @opts = opts

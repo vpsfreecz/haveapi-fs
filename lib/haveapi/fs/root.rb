@@ -1,4 +1,4 @@
-module HaveAPI::Fuse
+module HaveAPI::Fs
   class Root < Directory
     def initialize(api)
       super()

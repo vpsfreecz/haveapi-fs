@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/haveapi/fuse'
+require_relative '../lib/haveapi/fs'
 
 OPTIONS = %i(api version auth_method username password token)
 OPTION_USAGE = <<END
@@ -15,5 +15,5 @@ END
 FuseFS.main(ARGV, OPTIONS, OPTION_USAGE) do |opts|
   fail "set option 'api'" unless opts[:api]
 
-  HaveAPI::Fuse::Fs.new(opts)
+  HaveAPI::Fs.new(opts)
 end

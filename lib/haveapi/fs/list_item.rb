@@ -1,4 +1,4 @@
-module HaveAPI::Fuse
+module HaveAPI::Fs
   class ListItem < Directory
     def initialize(action, dir, data)
       super()

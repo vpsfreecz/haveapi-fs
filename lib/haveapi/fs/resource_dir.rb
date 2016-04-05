@@ -1,4 +1,4 @@
-module HaveAPI::Fuse
+module HaveAPI::Fs
   class ResourceDir < Directory
     def initialize(resource)
       super()

@@ -1,4 +1,4 @@
-module HaveAPI::Fuse
+module HaveAPI::Fs
   class ActionStatus < File
     def initialize(action_dir)
       @action_dir = action_dir

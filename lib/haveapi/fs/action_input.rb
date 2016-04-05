@@ -1,4 +1,4 @@
-module HaveAPI::Fuse
+module HaveAPI::Fs
   class ActionInput < Directory
     def initialize(action_dir)
       super()

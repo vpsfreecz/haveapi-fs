@@ -1,6 +1,6 @@
 require 'time'
 
-module HaveAPI::Fuse
+module HaveAPI::Fs
   class Parameter < File
     def initialize(action, name, dir, value = nil, editable: nil)
       @action = action
