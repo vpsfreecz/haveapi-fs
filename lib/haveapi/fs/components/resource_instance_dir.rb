@@ -10,13 +10,20 @@ module HaveAPI::Fs::Components
     def contents
       ret = %w(actions)
       ret.concat(subresources.map(&:to_s))
-      ret.concat(@resource.attributes.keys.map(&:to_s) - %w(_meta))
+      ret.concat(attributes)
       ret << 'save' if @update
       ret
     end
 
     def save
       @update.exec
+    end
+
+    def replace_association(name, id)
+      return unless children.has_key?(name)
+
+      @resource.send("#{name}_id=", id)
+      children[name] = ResourceInstanceDir.new(@resource.send(name))
     end
 
     protected
@@ -44,6 +51,22 @@ module HaveAPI::Fs::Components
           )
         end
 
+      elsif name.to_s.end_with?('_id')
+        real_name = name[0..-4].to_sym
+        return nil unless @resource.attributes.has_key?(real_name)
+
+        editable = @update.nil? ? false : @update.action.input_params.has_key?(real_name)
+
+        ResourceId.new(
+            self,
+            @resource.actions[:show],
+            real_name,
+            :output,
+            @resource,
+            editable: editable,
+            mirror: editable && @update.find(:input).find(real_name),
+        )
+
       else
         nil
       end
@@ -63,6 +86,15 @@ module HaveAPI::Fs::Components
       end
 
       @subresources
+    end
+
+    def attributes
+      @resource.actions[:show].params.select do |n, v|
+        v[:type] == 'Resource'
+
+      end.map do |n, v|
+        "#{n}_id"
+      end + @resource.attributes.keys.reject { |v| v == :_meta }.map(&:to_s)
     end
   end
 end

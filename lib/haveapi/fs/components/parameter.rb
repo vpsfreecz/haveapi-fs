@@ -86,6 +86,7 @@ module HaveAPI::Fs::Components
       hash = @value.is_a?(::Hash)
 
       if @desc[:type] == 'Resource'
+        return @new_value if @new_value
         return nil if @value.nil?
         @value.attributes[@name][@desc[:value_id].to_sym]
 
