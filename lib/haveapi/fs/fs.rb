@@ -100,7 +100,7 @@ module HaveAPI::Fs
 
         names.each do |n|
           if n === @check_file
-            tmp = RFuseCheck.new
+            tmp = Components::RFuseCheck.new
             break
 
           else
