@@ -54,6 +54,24 @@ module HaveAPI::Fs
       end
     end
 
+    def can_read?(path)
+      puts "can_read?"
+      p path
+
+      guard do
+        find_component(path).readable?
+      end
+    end
+
+    def can_write?(path)
+      puts "can_write?"
+      p path
+
+      guard do
+        find_component(path).writable?
+      end
+    end
+
     def read_file(path)
       puts "read_file"
       p path
