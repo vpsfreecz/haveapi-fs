@@ -1,6 +1,7 @@
 module HaveAPI::Fs::Components
   class ActionDir < Directory
-    attr_reader :resource, :action, :status, :input, :output
+    attr_reader :resource, :action
+    children_reader :status, :input, :output
 
     def initialize(resource, action)
       super()
@@ -27,10 +28,10 @@ module HaveAPI::Fs::Components
       @action.provide_args(*@resource.prepared_args)
       ret = HaveAPI::Client::Response.new(
           @action,
-          @action.execute(@input.values)
+          @action.execute(children[:input].values)
       )
 
-      @status.set(ret.ok?)
+      children[:status].set(ret.ok?)
 
       puts "got"
       p ret.ok?
@@ -59,10 +60,10 @@ module HaveAPI::Fs::Components
         res = ret
       end
 
-      @output.data = res if ret.ok?
+      children[:output].data = res if ret.ok?
 
     rescue HaveAPI::Client::ActionFailed => e
-      @status.failed
+      children[:status].failed
 
       puts "action failed, meh"
       p e.message

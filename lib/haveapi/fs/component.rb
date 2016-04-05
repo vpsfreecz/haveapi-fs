@@ -2,6 +2,14 @@ module HaveAPI::Fs
   module Components ; end
 
   class Component
+    class << self
+      def children_reader(*args)
+        args.each do |arg|
+          define_method(arg) { children[arg] }
+        end
+      end
+    end
+
     def initialize
       @children = {}
     end
