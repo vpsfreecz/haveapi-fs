@@ -1,15 +1,11 @@
 module HaveAPI::Fuse
-  class ListItem < Component
+  class ListItem < Directory
     def initialize(action, dir, data)
       super()
 
       @action = action
       @dir = dir
       @data = data
-    end
-
-    def directory?
-      true
     end
 
     def contents

@@ -1,12 +1,8 @@
 module HaveAPI::Fuse
-  class ActionInput < Component
+  class ActionInput < Directory
     def initialize(action_dir)
       super()
       @action_dir = action_dir
-    end
-
-    def directory?
-      true
     end
 
     def contents

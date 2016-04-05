@@ -1,12 +1,8 @@
 module HaveAPI::Fuse
-  class ActionExec < Component
+  class ActionExec < File
     def initialize(action_dir)
       super()
       @action_dir = action_dir
-    end
-
-    def file?
-      true
     end
 
     def writable?

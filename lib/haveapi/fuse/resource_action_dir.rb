@@ -1,14 +1,10 @@
 module HaveAPI::Fuse
-  class ResourceActionDir < Component
+  class ResourceActionDir < Directory
     def initialize(r)
       @resource = r
       @instance = r.is_a?(HaveAPI::Client::ResourceInstance)
 
       super()
-    end
-    
-    def directory?
-      true
     end
 
     def contents

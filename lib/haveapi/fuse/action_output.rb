@@ -1,5 +1,5 @@
 module HaveAPI::Fuse
-  class ActionOutput < Component
+  class ActionOutput < Directory
     attr_reader :action_dir
     attr_accessor :data
 
@@ -11,10 +11,6 @@ module HaveAPI::Fuse
       if %i(hash_list object_list).include?(@action_dir.action.output_layout.to_sym)
         @list = true
       end
-    end
-    
-    def directory?
-      true
     end
 
     def contents

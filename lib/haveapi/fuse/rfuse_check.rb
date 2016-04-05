@@ -1,7 +1,3 @@
 module HaveAPI::Fuse
-  class RFuseCheck < Component
-    def file?
-      true
-    end
-  end
+  class RFuseCheck < File ; end
 end

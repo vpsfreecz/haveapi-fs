@@ -1,13 +1,9 @@
 module HaveAPI::Fuse
-  class ResourceDir < Component
+  class ResourceDir < Directory
     def initialize(resource)
       super()
       @resource = resource
       @index = find(:actions).find(:index)
-    end
-
-    def directory?
-      true
     end
 
     def contents

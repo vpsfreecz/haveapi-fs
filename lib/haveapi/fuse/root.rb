@@ -1,12 +1,8 @@
 module HaveAPI::Fuse
-  class Root < Component
+  class Root < Directory
     def initialize(api)
       super()
       @api = api
-    end
-
-    def directory?
-      true
     end
 
     def contents

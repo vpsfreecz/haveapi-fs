@@ -1,7 +1,7 @@
 require 'time'
 
 module HaveAPI::Fuse
-  class Parameter < Component
+  class Parameter < File
     def initialize(action, name, dir, value = nil, editable: nil)
       @action = action
       @name = name
@@ -24,10 +24,6 @@ module HaveAPI::Fuse
       else
         @writable = editable
       end
-    end
-
-    def file?
-      true
     end
 
     def writable?

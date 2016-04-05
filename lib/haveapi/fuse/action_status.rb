@@ -1,12 +1,8 @@
 module HaveAPI::Fuse
-  class ActionStatus < Component
+  class ActionStatus < File
     def initialize(action_dir)
       @action_dir = action_dir
       @v = nil
-    end
-
-    def file?
-      true
     end
 
     def read

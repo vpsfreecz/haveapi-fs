@@ -5,6 +5,8 @@ end
 require_relative 'fuse/fs'
 require_relative 'fuse/cache'
 require_relative 'fuse/component'
+require_relative 'fuse/directory'
+require_relative 'fuse/file'
 require_relative 'fuse/root'
 require_relative 'fuse/resource_dir'
 require_relative 'fuse/resource_instance_dir'

@@ -1,5 +1,5 @@
 module HaveAPI::Fuse
-  class ActionDir < Component
+  class ActionDir < Directory
     attr_reader :resource, :action, :status, :input, :output
 
     def initialize(resource, action)
@@ -30,10 +30,6 @@ module HaveAPI::Fuse
       else
         nil
       end
-    end
-
-    def directory?
-      true
     end
 
     def contents
