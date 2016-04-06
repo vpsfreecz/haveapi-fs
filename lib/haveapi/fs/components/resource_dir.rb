@@ -10,7 +10,7 @@ module HaveAPI::Fs::Components
 
     def contents
       unless @data
-        @index.exec
+        @index.exec(meta: meta_params)
         @data = @index.output.data
       end
 
@@ -36,11 +36,10 @@ module HaveAPI::Fs::Components
           ResourceInstanceDir.new(r) if r
 
         else
-          # The directory contents have not been loaded yet. We should not load.
-          # We don't necessarily need to load it all, a single query should be
-          # sufficient.
+          # The directory contents have not been loaded yet. We don't necessarily
+          # need to load it all, a single query should be sufficient.
           begin
-            obj = @resource.show(id)
+            obj = @resource.show(id, meta: meta_params)
             ResourceInstanceDir.new(obj)
 
           rescue HaveAPI::Client::ActionFailed
@@ -70,6 +69,16 @@ module HaveAPI::Fs::Components
       end
 
       @subresources
+    end
+
+    def meta_params
+      {
+          includes: @resource.actions[:show].params.select do |n, p|
+            p[:type] == 'Resource'
+          end.map do |n, p|
+            n
+          end.join(',')
+      }
     end
   end
 end

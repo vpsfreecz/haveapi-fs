@@ -24,11 +24,13 @@ module HaveAPI::Fs::Components
       %w(input output status exec reset) + help_contents
     end
 
-    def exec
+    def exec(meta: {})
       @action.provide_args(*@resource.prepared_args)
       ret = HaveAPI::Client::Response.new(
           @action,
-          @action.execute(children[:input].values)
+          @action.execute(
+              children[:input].values.update({meta: meta})
+          )
       )
 
       children[:status].set(ret.ok?)
