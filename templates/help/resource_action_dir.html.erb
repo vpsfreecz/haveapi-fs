@@ -1,0 +1,23 @@
+<% level = @c.instance? ? 'Instance-level' : 'Resource-level' -%>
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>
+            <%= level -%>
+            actions of <%= @c.resource._name %> <span>[<a href=".">browse</a>]</span>
+        </h1>
+        <h2>Contents</h2>
+        <p>
+        This directory contains a list of actions that are operating on <%= level.downcase %>.
+        </p>
+        <table>
+            <% @c.relevant_actions.each do |name| %>
+                <% a = @c.resource.actions[name] -%>
+                <tr>
+                    <th><a href="<%= name %>/help.html"><%= name %></a></th>
+                    <td><%= a.description %></td>
+                </tr
+            <% end %>
+        </table>
+    </body>
+</html>

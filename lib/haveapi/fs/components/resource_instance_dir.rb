@@ -12,6 +12,7 @@ module HaveAPI::Fs::Components
       ret.concat(subresources.map(&:to_s))
       ret.concat(attributes)
       ret << 'save' if @update
+      ret.concat(help_contents)
       ret
     end
 
@@ -24,6 +25,31 @@ module HaveAPI::Fs::Components
 
       @resource.send("#{name}_id=", id)
       children[name] = ResourceInstanceDir.new(@resource.send(name))
+    end
+
+    def subresources
+      return @subresources if @subresources
+      @subresources = []
+
+      @resource.resources.each do |r_name, r|
+        r.actions.each do |a_name, a|
+          if a.url.index(":#{@resource._name}_id")
+            @subresources << r_name
+            break
+          end
+        end
+      end
+
+      @subresources
+    end
+
+    def attributes
+      @resource.actions[:show].params.select do |n, v|
+        v[:type] == 'Resource'
+
+      end.map do |n, v|
+        "#{n}_id"
+      end + @resource.attributes.keys.reject { |v| v == :_meta }.map(&:to_s)
     end
 
     protected
@@ -67,34 +93,12 @@ module HaveAPI::Fs::Components
             mirror: editable && @update.find(:input).find(real_name),
         )
 
+      elsif help_file?(name)
+        help_file(name)
+
       else
         nil
       end
-    end
-
-    def subresources
-      return @subresources if @subresources
-      @subresources = []
-
-      @resource.resources.each do |r_name, r|
-        r.actions.each do |a_name, a|
-          if a.url.index(":#{@resource._name}_id")
-            @subresources << r_name
-            break
-          end
-        end
-      end
-
-      @subresources
-    end
-
-    def attributes
-      @resource.actions[:show].params.select do |n, v|
-        v[:type] == 'Resource'
-
-      end.map do |n, v|
-        "#{n}_id"
-      end + @resource.attributes.keys.reject { |v| v == :_meta }.map(&:to_s)
     end
   end
 end

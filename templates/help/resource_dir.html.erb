@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1><%= @c.resource._name %> <span>[<a href=".">browse</a>]</span></h1>
+        <p><%= @c.resource.description[:description] %></p>
+        <h2>Contents</h2>
+        <p>
+        This directory contains a list of objects as it is returned by the API server
+        using action <em>Index</em>.
+        </p>
+        <p>
+        Actions that are operating on resource-level, i.e. they are not taking object
+        id as an argument are in subdirectory <a href="actions/help.html">actions/</a>.
+        </p>
+    </body>
+</html>

@@ -1,5 +1,7 @@
 module HaveAPI::Fs::Components
   class ResourceDir < Directory
+    attr_reader :resource
+
     def initialize(resource)
       super()
       @resource = resource
@@ -12,7 +14,10 @@ module HaveAPI::Fs::Components
         @data = @index.output.data
       end
 
-      %w(actions) + subresources.map(&:to_s) + @data.map { |v| v.id.to_s }
+      %w(actions) \
+      + subresources.map(&:to_s) \
+      + @data.map { |v| v.id.to_s } \
+      + help_contents
     end
 
     protected
@@ -42,6 +47,9 @@ module HaveAPI::Fs::Components
             # Not found
           end
         end
+
+      elsif help_file?(name)
+        help_file(name)
 
       else
         nil

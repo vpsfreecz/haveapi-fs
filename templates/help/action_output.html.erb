@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>
+            Output parameters of action <%= @c.action_dir.action.name %>
+            <span>[<a href=".">browse</a>]</span>
+        </h1>
+        <h2>Contents</h2>
+        <p>
+        Every output parameter is represented by a read-only file. The directory is empty
+        until the action has been executed.
+        </p>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Label</th>
+                <th>Data type</th>
+                <th>Description</th>
+            </tr>
+            <% @c.action_dir.action.params.each do |name, desc| %>
+                <tr>
+                    <td><%= name %></td>
+                    <td><%= desc[:label] %></td>
+                    <td><%= desc[:type] %></td>
+                    <td><%= desc[:description] %></td>
+                </tr>
+            <% end -%>
+        </table>
+    </body>
+</html>

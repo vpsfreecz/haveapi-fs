@@ -14,19 +14,23 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      return [] unless @data
+      ret = help_contents
+
+      return ret unless @data
 
       if @list
         if @data.is_a?(HaveAPI::Client::ResourceInstanceList)
-          @data.map { |v| v.id.to_s }
+          ret.concat(@data.map { |v| v.id.to_s })
 
         else
-          @data.response.map { |v| v[:id].to_s }
+          ret.concat(@data.response.map { |v| v[:id].to_s })
         end
 
       else
-        parameters.keys.map(&:to_s)
+        ret.concat(parameters.keys.map(&:to_s))
       end
+
+      ret
     end
 
     def parameters
@@ -35,9 +39,13 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      return nil unless @data
+      if help_file?(name)
+        help_file(name)
 
-      if @list
+      elsif !@data
+        nil
+
+      elsif @list
         id = name.to_s.to_i
         
         if @data.is_a?(HaveAPI::Client::ResourceInstanceList)
@@ -49,13 +57,16 @@ module HaveAPI::Fs::Components
           ListItem.new(@action_dir.action, :output, param)
         end
 
-      else
+      elsif @action_dir.action.params.has_key?(name)
         Parameter.new(
             @action_dir.action,
             name,
             :output,
             @data.is_a?(HaveAPI::Client::ResourceInstance) ? @data : @data.response,
         )
+
+      else
+        bil
       end
     end
   end

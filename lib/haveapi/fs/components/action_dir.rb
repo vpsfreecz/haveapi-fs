@@ -21,7 +21,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      %w(input output status exec reset)
+      %w(input output status exec reset) + help_contents
     end
 
     def exec
@@ -76,7 +76,12 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      nil
+      if help_file?(name)
+        help_file(name)
+
+      else
+        nil
+      end
     end
   end
 end

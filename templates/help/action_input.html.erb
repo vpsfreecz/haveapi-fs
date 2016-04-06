@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>
+            Input parameters of action <%= @c.action_dir.action.name %>
+            <span>[<a href=".">browse</a>]</span>
+        </h1>
+        <h2>Contents</h2>
+        <p>
+        Every input parameter is represented by a file that can be written to. If a file
+        is not changed, the parameter it represents will not be sent to the API -- it is
+        possible to send only a subset of input parameters.
+        </p>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Label</th>
+                <th>Required?</th>
+                <th>Data type</th>
+                <th>Validators</th>
+                <th>Default value</th>
+                <th>Description</th>
+            </tr>
+            <% @c.action_dir.action.input_params.each do |name, desc| %>
+                <tr>
+                    <td><%= name %></td>
+                    <td><%= desc[:label] %></td>
+                    <td><%= desc[:required] ? 'yes' : 'no' %></td>
+                    <td><%= desc[:type] %></td>
+                    <td>
+                        <% if desc[:validators] -%>
+                            <% desc[:validators].each do |name, desc| %>
+                                <%= name.capitalize %>
+                                <dl>
+                                    <% desc.each do |k, v| %>
+                                    <dt><%= k %></dt>
+                                    <dd><%= v %></dd>
+                                    <% end -%>
+                                </dl>
+                            <% end -%>
+                        <% end -%>
+                    </td>
+                    <td><%= desc[:default] %></td>
+                    <td><%= desc[:description] %></td>
+                </tr>
+            <% end -%>
+        </table>
+    </body>
+</html>
