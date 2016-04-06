@@ -9,15 +9,15 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      unless @data
+      if !@data && @index
         @index.exec(meta: meta_params)
         @data = @index.output.data
       end
 
-      %w(actions) \
-      + subresources.map(&:to_s) \
-      + @data.map { |v| v.id.to_s } \
-      + help_contents
+      ret = %w(actions) + subresources.map(&:to_s)
+      ret.concat(@data.map { |v| v.id.to_s }) if @data
+      ret.concat(help_contents)
+      ret
     end
 
     protected
