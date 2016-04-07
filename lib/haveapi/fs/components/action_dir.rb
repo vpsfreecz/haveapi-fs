@@ -14,6 +14,8 @@ module HaveAPI::Fs::Components
 
     def setup
       children[:status] = ActionStatus.new(self)
+      children[:message] = ActionMessage.new(self)
+      children[:errors] = ActionErrors.new(self)
       children[:input] = ActionInput.new(self)
       children[:output] = ActionOutput.new(self)
       children[:exec] = ActionExec.new(self)
@@ -21,7 +23,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      %w(input output status exec reset) + help_contents
+      %w(input output status message errors exec reset) + help_contents
     end
 
     def exec(meta: {})
@@ -64,11 +66,15 @@ module HaveAPI::Fs::Components
 
       children[:output].data = res if ret.ok?
 
-    rescue HaveAPI::Client::ActionFailed => e
-      children[:status].failed
+    rescue HaveAPI::Client::ValidationError => e
+      children[:status].set(false)
+      children[:message].set(e.message)
+      children[:errors].set(e.errors)
 
-      puts "action failed, meh"
-      p e.message
+    rescue HaveAPI::Client::ActionFailed => e
+      children[:status].set(false)
+      children[:message].set(e.response.message)
+      children[:errors].set(e.response.errors)
     end
 
     def reset
