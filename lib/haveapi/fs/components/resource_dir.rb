@@ -17,6 +17,11 @@ module HaveAPI::Fs::Components
       ret = %w(actions) + subresources.map(&:to_s)
       ret.concat(@data.map { |v| v.id.to_s }) if @data
       ret.concat(help_contents)
+
+      if @index
+        ret.concat(@index.action.input_params.keys.map { |v| "by-#{v}" })
+      end
+
       ret
     end
 
@@ -49,6 +54,12 @@ module HaveAPI::Fs::Components
 
       elsif help_file?(name)
         help_file(name)
+
+      elsif @index && name.to_s.start_with?('by-')
+        by_param = name.to_s[3..-1].to_sym
+        return nil unless @index.action.input_params.has_key?(by_param)
+
+        IndexFilter.new(self, by_param)
 
       else
         nil
