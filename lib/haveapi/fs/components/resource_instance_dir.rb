@@ -11,7 +11,7 @@ module HaveAPI::Fs::Components
       ret = %w(actions)
       ret.concat(subresources.map(&:to_s))
       ret.concat(attributes)
-      ret << 'save' if @update
+      ret.concat(%w(save edit.yml)) if @update
       ret.concat(help_contents)
       ret
     end
@@ -92,6 +92,9 @@ module HaveAPI::Fs::Components
             editable: editable,
             mirror: editable && @update.find(:input).find(real_name),
         )
+
+      elsif name == :'edit.yml'
+        InstanceEdit.new(self)
 
       elsif help_file?(name)
         help_file(name)
