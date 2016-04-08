@@ -1,6 +1,6 @@
 module HaveAPI::Fs::Components
   class IndexFilter < Directory
-    attr_reader :resource_dir
+    attr_reader :resource_dir, :param
     attr_accessor :filters
 
     def initialize(resource_dir, param)
@@ -12,7 +12,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      []
+      help_contents
     end
 
     def title
@@ -21,8 +21,13 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(value)
-      @filters[ @param ] = value.to_s
-      IndexFilterValue.new(@resource_dir.resource, @filters)
+      if help_file?(value)
+        help_file(value)
+
+      else
+        @filters[ @param ] = value.to_s
+        IndexFilterValue.new(@resource_dir.resource, @filters)
+      end
     end
   end
 

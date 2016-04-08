@@ -1,0 +1,16 @@
+<h2>Contents</h2>
+<p>
+Although this directory is empty, any given path will serve as a value for
+filtering output of <code>Index</code> action of this resource using the
+following parameters:
+</p>
+
+<dl>
+    <% @c.filters.each do |k, v| %>
+        <dt><%= k %></dt>
+        <dd><%= v %></dd>
+    <% end -%>
+
+    <dt><%= @c.param %></dt>
+    <dd><em>remains to be set</em></dd>
+</dl>
