@@ -1,8 +1,8 @@
 module HaveAPI::Fs::Components
   class ResourceInstanceDir < ResourceDir
-    def initialize(*args)
-      super(*args)
-
+    def setup
+      super
+      
       @update = find(:actions).find(:update)
       children[:save] = SaveInstance.new(self) if @update
     end

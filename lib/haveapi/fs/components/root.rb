@@ -1,8 +1,12 @@
 module HaveAPI::Fs::Components
   class Root < Directory
-    def initialize(api)
+    def initialize()
       super()
-      @api = api
+    end
+
+    def setup
+      super
+      @api = context.fs.api
     end
 
     def contents

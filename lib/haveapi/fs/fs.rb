@@ -5,6 +5,8 @@ require 'haveapi/client'
 
 module HaveAPI::Fs
   class Fs
+    attr_reader :api
+
     def initialize(opts)
       @opts = opts
       p @opts
@@ -22,9 +24,14 @@ module HaveAPI::Fs
       @api.setup
 
       @path_cache = Cache.new
+      @context = Context.new
+      @context[:fs] = self
 
       @check_file = FuseFS::Fuse::Root::CHECK_FILE[1..-1].to_sym
-      @root = Components::Root.new(@api)
+      @root = Components::Root.new
+      @root.context = @context.clone
+      @root.context[:root] = @root
+      @root.setup
     end
 
     def contents(path)

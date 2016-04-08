@@ -5,6 +5,10 @@ module HaveAPI::Fs::Components
     def initialize(resource)
       super()
       @resource = resource
+    end
+
+    def setup
+      super
       @index = find(:actions).find(:index)
     end
 

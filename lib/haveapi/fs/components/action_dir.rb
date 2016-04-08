@@ -8,11 +8,11 @@ module HaveAPI::Fs::Components
       
       @resource = resource
       @action = action
-
-      setup
     end
 
     def setup
+      super
+
       children[:status] = ActionStatus.new(self)
       children[:message] = ActionMessage.new(self)
       children[:errors] = ActionErrors.new(self)

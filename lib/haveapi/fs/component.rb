@@ -2,6 +2,41 @@ module HaveAPI::Fs
   module Components ; end
 
   class Component
+    class Children
+      attr_accessor :context
+
+      def initialize(ctx)
+        @context = ctx
+        @store = {}
+      end
+
+      def [](k)
+        @store[k]
+      end
+
+      def []=(k, v)
+        v.context = context.clone
+        v.context.last.send(:setup_child, v)
+        @store[k] = v     
+      end
+
+      def set(k, v)
+        @store[k] = v
+      end
+
+      def has_key?(k)
+        @store.has_key?(k)
+      end
+
+      def clear
+        @store.clear
+      end
+
+      def select(&block)
+        @store.select(&block)
+      end
+    end
+
     class << self
       def children_reader(*args)
         args.each do |arg|
@@ -10,14 +45,20 @@ module HaveAPI::Fs
       end
     end
 
+    attr_accessor :context
+
     def initialize
-      @children = {}
+
+    end
+
+    def setup
+      @children = Children.new(context)
     end
 
     def find(name)
       return @children[name] if @children.has_key?(name)
       c = new_child(name)
-      @children[name] = c if c
+      @children.set(name, setup_child(c)) if c
     end
 
     def directory?
@@ -59,8 +100,23 @@ module HaveAPI::Fs
       raise NotImplementedError
     end
 
+    def setup_child(c)
+      c.context = context.clone
+      c.context[ underscore(c.class.name.split('::').last).to_sym ] = c
+      c.setup
+      c
+    end
+
     def drop_children
       @children.clear
+    end
+
+    def underscore(str)
+      str.gsub(/::/, '/').
+        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+        gsub(/([a-z\d])([A-Z])/,'\1_\2').
+        tr("-", "_").
+        downcase
     end
   end
 end
