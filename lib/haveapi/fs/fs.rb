@@ -40,63 +40,49 @@ module HaveAPI::Fs
       puts "contents"
       p path
 
-      guard do
-        find_component(path).contents
-      end
+      guard { find_component(path).contents }
     end
 
     def directory?(path)
       puts "directory?"
       p path
     
-      guard do
-        find_component(path).directory?
-      end
+      guard { find_component(path).directory? }
     end
 
     def file?(path)
       puts "file?"
       p path
     
-      guard do
-        find_component(path).file?
-      end
+      guard {find_component(path).file? }
     end
 
     def can_read?(path)
       puts "can_read?"
       p path
 
-      guard do
-        find_component(path).readable?
-      end
+      guard { find_component(path).readable? }
     end
 
     def can_write?(path)
       puts "can_write?"
       p path
 
-      guard do
-        find_component(path).writable?
-      end
+      guard { find_component(path).writable? }
     end
 
     def read_file(path)
       puts "read_file"
       p path
     
-      guard do
-        find_component(path).read
-      end
+      guard { find_component(path).read }
     end
 
     def write_to(path, str)
       puts "write_to"
       p path
 
-      guard do
-        find_component(path).write(str)
-      end
+      guard { find_component(path).write(str) }
     end
 
     protected
