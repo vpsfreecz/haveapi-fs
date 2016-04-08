@@ -37,44 +37,50 @@ module HaveAPI::Fs::Components
 
       children[:status].set(ret.ok?)
 
-      puts "got"
-      p ret.ok?
-      p ret.response
+      if ret.ok?
+        case @action.output_layout
+        when :object
+          res = HaveAPI::Client::ResourceInstance.new(
+              @resource.instance_variable_get('@client'),
+              @resource.instance_variable_get('@api'),
+              @resource,
+              action: @action,
+              response: ret,
+          )
 
-      case @action.output_layout
-      when :object
-        res = HaveAPI::Client::ResourceInstance.new(
-            @resource.instance_variable_get('@client'),
-            @resource.instance_variable_get('@api'),
-            @resource,
-            action: @action,
-            response: ret,
-        )
+        when :object_list
+          res = HaveAPI::Client::ResourceInstanceList.new(
+              @resource.instance_variable_get('@client'),
+              @resource.instance_variable_get('@api'),
+              @resource,
+              @action,
+              ret,
+          )
 
-      when :object_list
-        res = HaveAPI::Client::ResourceInstanceList.new(
-            @resource.instance_variable_get('@client'),
-            @resource.instance_variable_get('@api'),
-            @resource,
-            @action,
-            ret,
-        )
+        else
+          res = ret
+        end
+
+        children[:output].data = res
 
       else
-        res = ret
+        children[:message].set(ret.message)
+        children[:errors].set(ret.errors)
       end
-
-      children[:output].data = res if ret.ok?
+      
+      ret
 
     rescue HaveAPI::Client::ValidationError => e
       children[:status].set(false)
       children[:message].set(e.message)
       children[:errors].set(e.errors)
+      e
 
     rescue HaveAPI::Client::ActionFailed => e
       children[:status].set(false)
       children[:message].set(e.response.message)
       children[:errors].set(e.response.errors)
+      e.response
     end
 
     def reset
