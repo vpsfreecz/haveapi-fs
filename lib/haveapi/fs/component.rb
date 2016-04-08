@@ -85,14 +85,6 @@ module HaveAPI::Fs
       raise NotImplementedError
     end
 
-    def read
-      raise NotImplementedError
-    end
-    
-    def write(str)
-      raise NotImplementedError
-    end
-
     def title
       self.class.name
     end

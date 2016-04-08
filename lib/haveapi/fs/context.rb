@@ -22,13 +22,17 @@ module HaveAPI::Fs
       set(name, value)
     end
 
+    def [](name)
+      item = @object_path.reverse.detect { |v| v[0] == name }
+      item && item[1]
+    end
+
     def last
       @object_path.last[1]
     end
 
     def method_missing(name, *args)
-      item = @object_path.reverse.detect { |v| v[0] == name }
-      item ? item[1] : super(name, *args)
+      self[name] || super
     end
   end
 end

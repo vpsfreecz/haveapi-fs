@@ -71,6 +71,20 @@ module HaveAPI::Fs
       guard { find_component(path).writable? }
     end
 
+    def executable?(path)
+      puts "executable?"
+      p path
+
+      guard { find_component(path).executable? }
+    end
+
+    def size(path)
+      puts "size"
+      p path
+    
+      guard { find_component(path).size }
+    end
+
     def read_file(path)
       puts "read_file"
       p path
@@ -83,6 +97,48 @@ module HaveAPI::Fs
       p path
 
       guard { find_component(path).write(str) }
+    end
+
+    def raw_open(path, *args)
+      puts "raw_open"
+      p path
+
+      guard { find_component(path).raw_open(path, *args) }
+    end
+
+    def raw_read(path, *args)
+      puts "raw_read"
+      p path
+
+      guard { find_component(path).raw_read(path, *args) }
+    end
+
+    def raw_write(path, *args)
+      puts "raw_write"
+      p path
+
+      guard { find_component(path).raw_write(path, *args) }
+    end
+
+    def raw_sync(path, *args)
+      puts "raw_sync"
+      p path
+
+      guard { find_component(path).raw_sync(path, *args) }
+    end
+
+    def raw_truncate(path, *args)
+      puts "raw_truncate"
+      p path
+
+      guard { find_component(path).raw_truncate(path, *args) }
+    end
+    
+    def raw_close(path, *args)
+      puts "raw_close"
+      p path
+
+      guard { find_component(path).raw_close(path, *args) }
     end
 
     protected

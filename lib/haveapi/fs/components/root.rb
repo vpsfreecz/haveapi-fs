@@ -26,6 +26,9 @@ module HaveAPI::Fs::Components
       if @api.resources.has_key?(name)
         ResourceDir.new(@api.resources[name])
 
+      elsif name == :'.remote_control'
+        RemoteControlFile.new
+
       elsif name == :'.assets'
         MetaDir.new(
             ::File.join(
