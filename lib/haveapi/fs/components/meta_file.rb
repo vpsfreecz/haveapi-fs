@@ -5,6 +5,10 @@ module HaveAPI::Fs::Components
       @path = path
     end
 
+    def size
+      ::File.size(@path)
+    end
+
     def read
       ::File.read(@path)
     end
