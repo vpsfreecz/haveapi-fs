@@ -25,7 +25,7 @@ module HaveAPI::Fs
 
       @path_cache = Cache.new
       @context = Context.new
-      @context.mountpoint = @opts[:mountpoint]
+      @context.mountpoint = ::File.realpath(@opts[:mountpoint])
       @context[:fs] = self
 
       @check_file = FuseFS::Fuse::Root::CHECK_FILE[1..-1].to_sym
@@ -135,10 +135,6 @@ module HaveAPI::Fs
       warn e.message
 
       raise Errno::EIO, e.message
-    end
-
-    def abspath(path)
-      File.join(@opts[:mountpoint], path)
     end
   end
 end

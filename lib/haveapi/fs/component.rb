@@ -103,8 +103,8 @@ module HaveAPI::Fs
 
     def abspath
       File.join(
-        File.realpath(File.join(context.mountpoint)),
-        path
+          context.mountpoint,
+          path
       )
     end
 
