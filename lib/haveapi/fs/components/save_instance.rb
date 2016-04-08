@@ -10,11 +10,6 @@ module HaveAPI::Fs::Components
     end
 
     def read
-      i = 0
-      context.path.each do |k, v|
-        puts "  #{i}. #{k} = #{v.class}"
-        i += 1
-      end
       ''
     end
 
