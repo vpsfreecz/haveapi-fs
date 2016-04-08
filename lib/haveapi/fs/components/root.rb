@@ -18,7 +18,7 @@ module HaveAPI::Fs::Components
     end
 
     def title
-      '/'
+      context.url
     end
 
     protected

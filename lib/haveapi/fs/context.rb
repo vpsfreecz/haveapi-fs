@@ -1,6 +1,6 @@
 module HaveAPI::Fs
   class Context
-    attr_accessor :object_path, :file_path, :mountpoint
+    attr_accessor :object_path, :file_path, :url, :mountpoint
 
     def initialize
       @object_path = []
