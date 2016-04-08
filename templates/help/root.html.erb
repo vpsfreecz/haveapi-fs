@@ -1,4 +1,12 @@
-<% @c.resources.each do |name, r| %>
-    <h2><a href="<%= name %>/help.html"><%= name %></a></h2>
-    <p><%= r.description[:description] %></p>
-<% end -%>
+<table class="table table-striped table-bordered table-hover">
+    <tr>
+        <th>Resource</th>
+        <th>Description</th>
+    </tr>
+    <% @c.resources.each do |name, r| %>
+        <tr>
+            <td><a href="<%= name %>/help.html"><%= name %></a></td>
+            <td><%= r.description[:description] %></td>
+        </tr>
+    <% end -%>
+</table>

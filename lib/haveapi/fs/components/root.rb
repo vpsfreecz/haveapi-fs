@@ -26,6 +26,15 @@ module HaveAPI::Fs::Components
       if @api.resources.has_key?(name)
         ResourceDir.new(@api.resources[name])
 
+      elsif name == :'.assets'
+        MetaDir.new(
+            ::File.join(
+                ::File.realpath(::File.dirname(__FILE__)),
+                '..', '..', '..', '..',
+                'assets'
+            )
+        )
+
       elsif help_file?(name)
         help_file(name)
 

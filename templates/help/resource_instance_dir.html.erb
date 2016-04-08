@@ -5,28 +5,28 @@ This directory contains output parameters of action
 and subresources. Associated resources are represented by a directory.
 </p>
 <dl>
-    <dt><em>&lt;parameter&gt;</em></dt>
+    <dt><code>&lt;parameter&gt;</code></dt>
     <dd>
     Output parameters from action <a href="actions/show/help.html">show</a>.
     Parameters that are also input parameters of action
     <a href="actions/update/help.html">update</a> are writable.
     </dd>
 
-    <dt><em>&lt;association&gt;/</em></dt>
+    <dt><code>&lt;association&gt;/</code></dt>
     <dd>Associated resource is accessible as a nested resource instance</dd>
 
-    <dt><em>&lt;association_id&gt;</em></dt>
+    <dt><code>&lt;association_id&gt;</code></dt>
     <dd>To change the associated resource, write its id to this file</dd>
 
     <dt>save</dt>
-    <dd>Trigger the update action. The same as using <em>actions/update/exec</em></dd>
+    <dd>Trigger the update action. The same as using <code>actions/update/exec</code></dd>
 
-    <dt><em>&lt;subresource&gt;/</em></dt>
+    <dt><code>&lt;subresource&gt;/</code></dt>
     <dd>Access to subresources</dd>
 </dl>
 
 <h3>Attributes</h3>
-<table>
+<table class="table table-striped table-bordered table-hover">
     <tr>
         <th>Name</th>
         <th>Label</th>
@@ -46,7 +46,11 @@ and subresources. Associated resources are represented by a directory.
 </table>
 
 <h3>Subresources</h3>
-<table>
+<table class="table table-striped table-bordered table-hover">
+    <tr>
+        <th>Resource</th>
+        <th>Description</th>
+    </tr>
     <% @c.subresources.each do |name| %>
         <tr>
             <th><a href="<%= name %>/help.html"><%= name %></a></th>

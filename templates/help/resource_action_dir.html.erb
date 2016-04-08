@@ -1,8 +1,13 @@
 <h2>Contents</h2>
 <p>
-This directory contains a list of actions that are operating on <%= level.downcase %>.
+This directory contains a list of actions that are operating on
+<%= @c.instance? ? 'instance-level' : 'resource-level' %>.
 </p>
-<table>
+<table class="table table-striped table-bordered table-hover">
+    <tr>
+        <th>Action</th>
+        <th>Description</th>
+    </tr>
     <% @c.relevant_actions.each do |name| %>
         <% a = @c.resource.actions[name] -%>
         <tr>
