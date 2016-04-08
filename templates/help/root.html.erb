@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <body>
-        <h1>API resources <span>[<a href=".">browse</a>]</span></h1>
-        <% @c.resources.each do |name, r| %>
-            <h2><a href="<%= name %>/help.html"><%= name %></a></h2>
-            <p><%= r.description[:description] %></p>
-        <% end -%>
-    </body>
-</html>
+<% @c.resources.each do |name, r| %>
+    <h2><a href="<%= name %>/help.html"><%= name %></a></h2>
+    <p><%= r.description[:description] %></p>
+<% end -%>

@@ -16,7 +16,7 @@ module HaveAPI::Fs
 
       def []=(k, v)
         v.context = context.clone
-        v.context.last.send(:setup_child, v)
+        v.context.last.send(:setup_child, k, v)
         @store[k] = v     
       end
 
@@ -58,7 +58,7 @@ module HaveAPI::Fs
     def find(name)
       return @children[name] if @children.has_key?(name)
       c = new_child(name)
-      @children.set(name, setup_child(c)) if c
+      @children.set(name, setup_child(name, c)) if c
     end
 
     def directory?
@@ -93,6 +93,21 @@ module HaveAPI::Fs
       raise NotImplementedError
     end
 
+    def title
+      self.class.name
+    end
+
+    def path
+      context.file_path.join('/')
+    end
+
+    def abspath
+      File.join(
+        File.realpath(File.join(context.mountpoint)),
+        path
+      )
+    end
+
     protected
     attr_accessor :children
 
@@ -100,9 +115,10 @@ module HaveAPI::Fs
       raise NotImplementedError
     end
 
-    def setup_child(c)
+    def setup_child(name, c)
       c.context = context.clone
       c.context[ underscore(c.class.name.split('::').last).to_sym ] = c
+      c.context.file_path << name.to_s
       c.setup
       c
     end

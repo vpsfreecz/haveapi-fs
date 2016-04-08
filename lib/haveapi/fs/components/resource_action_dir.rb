@@ -37,6 +37,10 @@ module HaveAPI::Fs::Components
       @instance
     end
 
+    def title
+      'Actions'
+    end
+
     protected
     def new_child(name)
       if @resource.actions.has_key?(name)

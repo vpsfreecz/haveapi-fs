@@ -1,34 +1,28 @@
-<!DOCTYPE html>
-<html>
-    <body>
-        <h1>Action <%= @c.action.name %> <span>[<a href=".">browse</a>]</span></h1>
-        <p><%= @c.action.description %></p>
-        <h2>Contents</h2>
-        <p>
-        This directory is used to prepare input parameters, execute the action and retrieve
-        output parameters.
-        </p>
-        <dl>
-            <dt><a href="input/help.html">input/</a></dt>
-            <dd>Stage area for input parameters</dd>
+<p><%= @c.action.description %></p>
+<h2>Contents</h2>
+<p>
+This directory is used to prepare input parameters, execute the action and retrieve
+output parameters.
+</p>
+<dl>
+    <dt><a href="input/help.html">input/</a></dt>
+    <dd>Stage area for input parameters</dd>
 
-            <dt><a href="output/help.html">output/</a></dt>
-            <dd>Contains output parameters after the action was executed</dd>
+    <dt><a href="output/help.html">output/</a></dt>
+    <dd>Contains output parameters after the action was executed</dd>
 
-            <dt>exec</dt>
-            <dd>Write <em>1</em> to this file to execute the action</dd>
-            
-            <dt>status</dt>
-            <dd>Read action status. <em>1</em> if successful, <em>0</em> if not, empty if not yet run</dd>
+    <dt>exec</dt>
+    <dd>Write <em>1</em> to this file to execute the action</dd>
+    
+    <dt>status</dt>
+    <dd>Read action status. <em>1</em> if successful, <em>0</em> if not, empty if not yet run</dd>
 
-            <dt>message</dt>
-            <dd>Error message returned from the API</dd>
+    <dt>message</dt>
+    <dd>Error message returned from the API</dd>
 
-            <dt><a href="errors/help.html">errors/</a></dt>
-            <dd>List of parameter errors</dd>
+    <dt><a href="errors/help.html">errors/</a></dt>
+    <dd>List of parameter errors</dd>
 
-            <dt>reset</dt>
-            <dd>Reset input parameters</dd>
-        </dl>
-    </body>
-</html>
+    <dt>reset</dt>
+    <dd>Reset input parameters</dd>
+</dl>

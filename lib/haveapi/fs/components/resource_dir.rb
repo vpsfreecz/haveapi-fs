@@ -29,6 +29,10 @@ module HaveAPI::Fs::Components
       ret
     end
 
+    def title
+      "Resource #{@resource._name.to_s.capitalize}"
+    end
+
     protected
     def new_child(name)
       if name == :actions

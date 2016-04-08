@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title><%= @c.class %></title>
+    </head>
+    <body>
+        <div id="container">
+            <ul id="breadcrumbs">
+                <% @c.context.object_path[1..-1].each do |k, v| %>
+                    <li><a href="<%= v.abspath %>"><%= v.title %></a></li>        
+                <% end -%>
+            </div>
+
+            <div id="content">
+                <h1><%= @c.title %> <span>[<a href=".">browse</a>]</span></h1>
+                <%= yield %>
+            </div>
+        </div>
+    </body>
+</html>

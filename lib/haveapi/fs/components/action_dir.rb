@@ -82,6 +82,10 @@ module HaveAPI::Fs::Components
       setup
     end
 
+    def title
+      @action.name.capitalize
+    end
+
     protected
     def new_child(name)
       if help_file?(name)

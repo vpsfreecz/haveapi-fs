@@ -52,6 +52,10 @@ module HaveAPI::Fs::Components
       end + @resource.attributes.keys.reject { |v| v == :_meta }.map(&:to_s)
     end
 
+    def title
+      "#{@resource._name.to_s.capitalize} ##{@resource.id}"
+    end
+
     protected
     def new_child(name)
       if name == :actions

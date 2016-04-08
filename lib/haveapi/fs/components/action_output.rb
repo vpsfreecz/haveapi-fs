@@ -37,6 +37,10 @@ module HaveAPI::Fs::Components
       @action_dir.action.params
     end
 
+    def title
+      'Output parameters'
+    end
+
     protected
     def new_child(name)
       if help_file?(name)

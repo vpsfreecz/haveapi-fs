@@ -1,19 +1,21 @@
 module HaveAPI::Fs
   class Context
-    attr_accessor :path
+    attr_accessor :object_path, :file_path, :mountpoint
 
     def initialize
-      @path = []
+      @object_path = []
+      @file_path = []
     end
 
     def clone
       c = super
-      c.path = c.path.clone
+      c.object_path = c.object_path.clone
+      c.file_path = c.file_path.clone
       c
     end
 
     def set(name, value)
-      @path << [name, value]
+      @object_path << [name, value]
     end
 
     def []=(name, value)
@@ -21,11 +23,11 @@ module HaveAPI::Fs
     end
 
     def last
-      @path.last[1]
+      @object_path.last[1]
     end
 
     def method_missing(name, *args)
-      item = @path.reverse.detect { |v| v[0] == name }
+      item = @object_path.reverse.detect { |v| v[0] == name }
       item ? item[1] : super(name, *args)
     end
   end

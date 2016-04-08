@@ -26,6 +26,10 @@ module HaveAPI::Fs::Components
       @errors = errors
     end
 
+    def title
+      'Errors'
+    end
+
     protected
     def new_child(name)
       if help_file?(name)

@@ -17,6 +17,10 @@ module HaveAPI::Fs::Components
       @api.resources
     end
 
+    def title
+      '/'
+    end
+
     protected
     def new_child(name)
       if @api.resources.has_key?(name)

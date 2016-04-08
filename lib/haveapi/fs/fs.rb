@@ -25,6 +25,7 @@ module HaveAPI::Fs
 
       @path_cache = Cache.new
       @context = Context.new
+      @context.mountpoint = @opts[:mountpoint]
       @context[:fs] = self
 
       @check_file = FuseFS::Fuse::Root::CHECK_FILE[1..-1].to_sym

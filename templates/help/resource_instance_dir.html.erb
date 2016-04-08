@@ -1,65 +1,56 @@
-<!DOCTYPE html>
-<html>
-    <body>
-        <h1>
-            Instance of resource <%= @c.resource._name %>
-            <span>[<a href=".">browse</a>]</span>
-        </h1>
-        <h2>Contents</h2>
-        <p>
-        This directory contains output parameters of action
-        <a href="actions/show/help.html">show</a>, instance-level actions
-        and subresources. Associated resources are represented by a directory.
-        </p>
-        <dl>
-            <dt><em>&lt;parameter&gt;</em></dt>
-            <dd>
-            Output parameters from action <a href="actions/show/help.html">show</a>.
-            Parameters that are also input parameters of action
-            <a href="actions/update/help.html">update</a> are writable.
-            </dd>
+<h2>Contents</h2>
+<p>
+This directory contains output parameters of action
+<a href="actions/show/help.html">show</a>, instance-level actions
+and subresources. Associated resources are represented by a directory.
+</p>
+<dl>
+    <dt><em>&lt;parameter&gt;</em></dt>
+    <dd>
+    Output parameters from action <a href="actions/show/help.html">show</a>.
+    Parameters that are also input parameters of action
+    <a href="actions/update/help.html">update</a> are writable.
+    </dd>
 
-            <dt><em>&lt;association&gt;/</em></dt>
-            <dd>Associated resource is accessible as a nested resource instance</dd>
+    <dt><em>&lt;association&gt;/</em></dt>
+    <dd>Associated resource is accessible as a nested resource instance</dd>
 
-            <dt><em>&lt;association_id&gt;</em></dt>
-            <dd>To change the associated resource, write its id to this file</dd>
+    <dt><em>&lt;association_id&gt;</em></dt>
+    <dd>To change the associated resource, write its id to this file</dd>
 
-            <dt>save</dt>
-            <dd>Trigger the update action. The same as using <em>actions/update/exec</em></dd>
+    <dt>save</dt>
+    <dd>Trigger the update action. The same as using <em>actions/update/exec</em></dd>
 
-            <dt><em>&lt;subresource&gt;/</em></dt>
-            <dd>Access to subresources</dd>
-        </dl>
+    <dt><em>&lt;subresource&gt;/</em></dt>
+    <dd>Access to subresources</dd>
+</dl>
 
-        <h3>Attributes</h3>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Label</th>
-                <th>Data type</th>
-                <th>Description</th>
-            </tr>
-            <% @c.resource.attributes.each_key do |name| %>
-                <% next if name == :_meta %>
-                <% desc = @c.resource.actions[:show].params[name] %>
-                <tr>
-                    <td><%= name %></td>
-                    <td><%= desc[:label] %></td>
-                    <td><%= desc[:type] %></td>
-                    <td><%= desc[:description] %></td>
-                </tr>
-            <% end -%>
-        </table>
+<h3>Attributes</h3>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Label</th>
+        <th>Data type</th>
+        <th>Description</th>
+    </tr>
+    <% @c.resource.attributes.each_key do |name| %>
+        <% next if name == :_meta %>
+        <% desc = @c.resource.actions[:show].params[name] %>
+        <tr>
+            <td><%= name %></td>
+            <td><%= desc[:label] %></td>
+            <td><%= desc[:type] %></td>
+            <td><%= desc[:description] %></td>
+        </tr>
+    <% end -%>
+</table>
 
-        <h3>Subresources</h3>
-        <table>
-            <% @c.subresources.each do |name| %>
-                <tr>
-                    <th><a href="<%= name %>/help.html"><%= name %></a></th>
-                    <td><%= @c.resource.resources[name].description[:description] %></td>
-                </tr>
-            <% end -%>
-        </table>
-    </body>
-</html>
+<h3>Subresources</h3>
+<table>
+    <% @c.subresources.each do |name| %>
+        <tr>
+            <th><a href="<%= name %>/help.html"><%= name %></a></th>
+            <td><%= @c.resource.resources[name].description[:description] %></td>
+        </tr>
+    <% end -%>
+</table>

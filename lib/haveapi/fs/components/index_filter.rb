@@ -15,6 +15,10 @@ module HaveAPI::Fs::Components
       []
     end
 
+    def title
+      "Filter by #{@param}"
+    end
+
     protected
     def new_child(value)
       @filters[ @param ] = value.to_s
@@ -34,7 +38,12 @@ module HaveAPI::Fs::Components
       
       @filters.each do |k, v|
         @index.find(:input).find(k).write(v)
+        @last = v
       end
+    end
+
+    def title
+      @last.to_s
     end
 
     protected

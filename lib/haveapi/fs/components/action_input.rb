@@ -19,6 +19,10 @@ module HaveAPI::Fs::Components
       Hash[children.select { |n, c| c.set? }.map { |n, c| [n, c.value] }]
     end
 
+    def title
+      'Input parameters'
+    end
+
     protected
     def new_child(name)
       if @action_dir.action.input_params.has_key?(name)
