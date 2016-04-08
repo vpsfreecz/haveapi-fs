@@ -27,8 +27,12 @@ module HaveAPI::Fs::Components
       super(resource)
 
       @filters = filters
+    end
+
+    def setup
+      super
       
-      filters.each do |k, v|
+      @filters.each do |k, v|
         @index.find(:input).find(k).write(v)
       end
     end
