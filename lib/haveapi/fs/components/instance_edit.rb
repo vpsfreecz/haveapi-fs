@@ -49,6 +49,7 @@ END
 
       data = YAML.load(str)
       raise Errno::EIO, 'invalid yaml document' unless data.is_a?(::Hash)
+      return if data.empty?
 
       params = @update.action.input_params
 
