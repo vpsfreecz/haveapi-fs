@@ -20,6 +20,7 @@ module HaveAPI::Fs::Components
 
       ret = %w(actions) + subresources.map(&:to_s)
       ret.concat(@data.map { |v| v.id.to_s }) if @data
+      ret << 'create.yml'
       ret.concat(help_contents)
 
       if @index
@@ -59,6 +60,9 @@ module HaveAPI::Fs::Components
             # Not found
           end
         end
+
+      elsif name == :'create.yml'
+        InstanceCreate.new(self)
 
       elsif help_file?(name)
         help_file(name)

@@ -2,6 +2,8 @@ require 'time'
 
 module HaveAPI::Fs::Components
   class Parameter < File
+    attr_reader :new_value
+
     def initialize(action, name, dir, value = nil, editable: nil, mirror: nil)
       @action = action
       @name = name
