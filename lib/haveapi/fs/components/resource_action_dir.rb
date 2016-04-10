@@ -48,6 +48,12 @@ module HaveAPI::Fs::Components
         when :create
           CreateActionDir
 
+        #when :update
+        #  UpdateActionDir
+
+        when :delete
+          DeleteActionDir
+
         else
           ActionDir
         end

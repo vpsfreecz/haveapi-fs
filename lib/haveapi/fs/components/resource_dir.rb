@@ -31,6 +31,12 @@ module HaveAPI::Fs::Components
       @refresh = true
     end
 
+    def delete(id)
+      return unless @data
+      i = @data.index { |v| v.id == id }
+      @data.delete_at(i) if i
+    end
+
     def title
       "Resource #{@resource._name.to_s.capitalize}"
     end
