@@ -54,7 +54,7 @@ END
     end
 
     def write(str)
-      execute if str.strip == '1'
+      exec if str.strip == '1'
     end
 
     def exec
