@@ -89,6 +89,11 @@ module HaveAPI::Fs
       [@atime, @mtime, @ctime]
     end
 
+    def reset
+      drop_children
+      setup
+    end
+
     def title
       self.class.name
     end
@@ -102,6 +107,10 @@ module HaveAPI::Fs
           context.mountpoint,
           path
       )
+    end
+
+    def parent
+      context.object_path[-2][1]
     end
 
     protected

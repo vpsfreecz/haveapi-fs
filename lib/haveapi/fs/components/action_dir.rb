@@ -19,7 +19,7 @@ module HaveAPI::Fs::Components
       children[:input] = ActionInput.new(self)
       children[:output] = ActionOutput.new(self)
       children[:exec] = ActionExec.new(self)
-      children[:reset] = ActionReset.new(self)
+      children[:reset] = DirectoryReset.new
     end
 
     def contents
@@ -81,11 +81,6 @@ module HaveAPI::Fs::Components
       children[:message].set(e.response.message)
       children[:errors].set(e.response.errors)
       e.response
-    end
-
-    def reset
-      drop_children
-      setup
     end
 
     def title

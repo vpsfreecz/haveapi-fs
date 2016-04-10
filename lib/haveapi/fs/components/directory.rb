@@ -7,13 +7,16 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      help_contents
+      help_contents + %w(.reset)
     end
 
     protected
     def new_child(name)
       if help_file?(name)
         help_file(name)
+
+      elsif name == :'.reset'
+        DirectoryReset.new
 
       else
         nil

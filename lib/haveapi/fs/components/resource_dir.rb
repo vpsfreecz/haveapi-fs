@@ -10,6 +10,7 @@ module HaveAPI::Fs::Components
     def setup
       super
       @index = find(:actions).find(:index)
+      @data = nil
     end
 
     def contents
