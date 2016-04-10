@@ -78,6 +78,13 @@ module HaveAPI::Fs
       guard { find_component(path).executable? }
     end
 
+    def times(path)
+      puts "times"
+      p path
+
+      guard { find_component(path).times }
+    end
+
     def size(path)
       puts "size"
       p path
@@ -144,6 +151,8 @@ module HaveAPI::Fs
     protected
     def find_component(path)
       @path_cache.get(path) do
+        t = Time.now
+
         names = path.split('/').map { |v| v.to_sym }[1..-1]
         tmp = @root
 
@@ -160,6 +169,9 @@ module HaveAPI::Fs
           
           if tmp.nil?
             raise Errno::ENOENT, "'#{path}' not found"
+
+          else
+            tmp.atime = t
           end
         end
 

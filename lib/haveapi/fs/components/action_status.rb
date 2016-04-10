@@ -10,6 +10,7 @@ module HaveAPI::Fs::Components
     end
 
     def set(v)
+      changed
       @v = v
     end
 

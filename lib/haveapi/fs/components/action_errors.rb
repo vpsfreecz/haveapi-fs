@@ -23,6 +23,7 @@ module HaveAPI::Fs::Components
     end
 
     def set(errors)
+      changed
       @errors = errors
     end
 

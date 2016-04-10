@@ -17,7 +17,9 @@ module HaveAPI::Fs::Components
     end
 
     def save
-      @update.exec
+      ret = @update.exec
+      self.mtime = Time.now
+      ret
     end
 
     def replace_association(name, id)

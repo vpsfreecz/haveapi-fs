@@ -5,6 +5,8 @@ module HaveAPI::Fs::Components
     attr_reader :new_value
 
     def initialize(action, name, dir, value = nil, editable: nil, mirror: nil)
+      super()
+
       @action = action
       @name = name
       @dir = dir
@@ -68,6 +70,7 @@ module HaveAPI::Fs::Components
         str.strip
       end
 
+      changed
       @mirror.write_safe(@new_value) if @mirror
       
     rescue => e
@@ -78,6 +81,7 @@ module HaveAPI::Fs::Components
     def write_safe(v)
       @new_value = v
       @set = true
+      changed
     end
 
     def value

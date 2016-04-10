@@ -11,6 +11,7 @@ module HaveAPI::Fs::Components
     end
 
     def set(msg)
+      changed
       @msg = msg
     end
   end

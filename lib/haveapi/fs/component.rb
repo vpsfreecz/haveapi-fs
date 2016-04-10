@@ -45,10 +45,10 @@ module HaveAPI::Fs
       end
     end
 
-    attr_accessor :context
+    attr_accessor :context, :atime, :mtime, :ctime
 
     def initialize
-
+      @atime = @mtime = @ctime = Time.now
     end
 
     def setup
@@ -85,6 +85,10 @@ module HaveAPI::Fs
       raise NotImplementedError
     end
 
+    def times
+      [@atime, @mtime, @ctime]
+    end
+
     def title
       self.class.name
     end
@@ -117,6 +121,10 @@ module HaveAPI::Fs
 
     def drop_children
       @children.clear
+    end
+
+    def changed
+      self.mtime = Time.now
     end
 
     def underscore(str)

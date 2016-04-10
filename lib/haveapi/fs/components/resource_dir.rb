@@ -135,6 +135,7 @@ module HaveAPI::Fs::Components
         @data = new_data
       end
 
+      changed
       @refresh = false
     end
 
