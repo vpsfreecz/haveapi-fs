@@ -48,8 +48,8 @@ module HaveAPI::Fs::Components
         when :create
           CreateActionDir
 
-        #when :update
-        #  UpdateActionDir
+        when :update
+          instance? ? UpdateActionDir : ActionDir
 
         when :delete
           DeleteActionDir

@@ -24,7 +24,11 @@ module HaveAPI::Fs::Components
       return unless children.has_key?(name)
 
       @resource.send("#{name}_id=", id)
-      children[name] = ResourceInstanceDir.new(@resource.send(name))
+      children[name] = setup_child(name, ResourceInstanceDir.new(@resource.send(name)))
+    end
+
+    def update_association(name)
+      children[name] = setup_child(name, ResourceInstanceDir.new(@resource.send(name)))
     end
 
     def subresources
