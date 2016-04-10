@@ -23,7 +23,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      %w(input output status message errors exec reset) + help_contents
+      super + %w(input output status message errors exec reset)
     end
 
     def exec(meta: {})
@@ -90,16 +90,6 @@ module HaveAPI::Fs::Components
 
     def title
       @action.name.capitalize
-    end
-
-    protected
-    def new_child(name)
-      if help_file?(name)
-        help_file(name)
-
-      else
-        nil
-      end
     end
   end
 end

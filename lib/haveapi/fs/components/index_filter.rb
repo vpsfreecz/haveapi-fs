@@ -11,19 +11,15 @@ module HaveAPI::Fs::Components
       @filters = {}
     end
 
-    def contents
-      help_contents
-    end
-
     def title
       "Filter by #{@param}"
     end
 
     protected
     def new_child(value)
-      if help_file?(value)
-        help_file(value)
-
+      if child = super
+        child
+      
       else
         @filters[ @param ] = value.to_s
         IndexFilterValue.new(@resource_dir.resource, @filters)

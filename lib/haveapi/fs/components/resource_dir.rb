@@ -15,10 +15,9 @@ module HaveAPI::Fs::Components
     def contents
       load_contents if @index && (!@data || @refresh)
 
-      ret = %w(actions) + subresources.map(&:to_s)
+      ret = super + %w(actions) + subresources.map(&:to_s)
       ret.concat(@data.map { |v| v.id.to_s }) if @data
       ret << 'create.yml'
-      ret.concat(help_contents)
 
       if @index
         ret.concat(@index.action.input_params.keys.map { |v| "by-#{v}" })
@@ -43,7 +42,10 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      if name == :actions
+      if child = super
+        child
+      
+      elsif name == :actions
         ResourceActionDir.new(@resource)
 
       elsif subresources.include?(name)
@@ -70,10 +72,7 @@ module HaveAPI::Fs::Components
 
       elsif name == :'create.yml'
         InstanceCreate.new(self)
-
-      elsif help_file?(name)
-        help_file(name)
-
+      
       elsif @index && name.to_s.start_with?('by-')
         by_param = name.to_s[3..-1].to_sym
         return nil unless @index.action.input_params.has_key?(by_param)

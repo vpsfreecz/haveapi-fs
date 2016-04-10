@@ -10,7 +10,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      @api.resources.keys.map(&:to_s) + help_contents
+      super + @api.resources.keys.map(&:to_s)
     end
 
     def resources
@@ -23,7 +23,10 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      if @api.resources.has_key?(name)
+      if child = super
+        child
+      
+      elsif @api.resources.has_key?(name)
         ResourceDir.new(@api.resources[name])
 
       elsif name == :'.remote_control'
@@ -37,9 +40,6 @@ module HaveAPI::Fs::Components
                 'assets'
             )
         )
-
-      elsif help_file?(name)
-        help_file(name)
 
       else
         nil

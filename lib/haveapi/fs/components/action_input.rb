@@ -8,7 +8,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      parameters.keys.map(&:to_s) + help_contents
+      super + parameters.keys.map(&:to_s)
     end
 
     def parameters
@@ -25,11 +25,11 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      if @action_dir.action.input_params.has_key?(name)
-        Parameter.new(@action_dir.action, name, :input)
+      if child = super
+        child
 
-      elsif help_file?(name)
-        help_file(name)
+      elsif @action_dir.action.input_params.has_key?(name)
+        Parameter.new(@action_dir.action, name, :input)
 
       else
         nil

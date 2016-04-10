@@ -8,11 +8,10 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      ret = %w(actions)
+      ret = super + %w(actions)
       ret.concat(subresources.map(&:to_s))
       ret.concat(attributes)
       ret.concat(%w(save edit.yml)) if @update
-      ret.concat(help_contents)
       ret
     end
 
@@ -64,7 +63,10 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      if name == :actions
+      if child = super
+        child
+      
+      elsif name == :actions
         ResourceActionDir.new(@resource)
 
       elsif subresources.include?(name)
@@ -105,9 +107,6 @@ module HaveAPI::Fs::Components
 
       elsif name == :'edit.yml'
         InstanceEdit.new(self)
-
-      elsif help_file?(name)
-        help_file(name)
 
       else
         nil

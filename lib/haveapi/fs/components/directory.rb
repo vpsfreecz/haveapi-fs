@@ -5,5 +5,19 @@ module HaveAPI::Fs::Components
     def directory?
       true
     end
+
+    def contents
+      help_contents
+    end
+
+    protected
+    def new_child(name)
+      if help_file?(name)
+        help_file(name)
+
+      else
+        nil
+      end
+    end
   end
 end

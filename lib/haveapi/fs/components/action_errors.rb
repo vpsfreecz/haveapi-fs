@@ -16,7 +16,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      ret = help_contents
+      ret = super
       return ret unless @errors
       ret.concat(@errors.keys.map(&:to_s))
       ret
@@ -33,8 +33,8 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      if help_file?(name)
-        help_file(name)
+      if child = super
+        child
 
       elsif @errors && @errors.has_key?(name)
         ActionError.new(@errors[name])

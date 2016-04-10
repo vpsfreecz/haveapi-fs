@@ -10,7 +10,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      relevant_actions.map(&:to_s) + help_contents
+      super + relevant_actions.map(&:to_s)
     end
 
     def relevant_actions
@@ -43,7 +43,10 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      if @resource.actions.has_key?(name)
+      if child = super
+        child
+      
+      elsif @resource.actions.has_key?(name)
         klass = case name
         when :create
           CreateActionDir
@@ -59,9 +62,6 @@ module HaveAPI::Fs::Components
         end
         
         klass.new(@resource, @resource.actions[name])
-
-      elsif help_file?(name)
-        help_file(name)
 
       else
         nil
