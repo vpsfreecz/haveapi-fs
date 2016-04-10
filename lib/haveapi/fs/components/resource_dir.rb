@@ -13,10 +13,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      if !@data && @index
-        @index.exec(meta: meta_params)
-        @data = @index.output.data
-      end
+      load_contents if @index && (!@data || @refresh)
 
       ret = %w(actions) + subresources.map(&:to_s)
       ret.concat(@data.map { |v| v.id.to_s }) if @data
@@ -28,6 +25,10 @@ module HaveAPI::Fs::Components
       end
 
       ret
+    end
+
+    def refresh
+      @refresh = true
     end
 
     def title
@@ -102,6 +103,39 @@ module HaveAPI::Fs::Components
             n
           end.join(',')
       }
+    end
+
+    def load_contents
+      @index.exec(meta: meta_params)
+      new_data = @index.output.data
+
+      if @data
+        current_map = id_map(@data)
+        res = []
+
+        new_data.each do |v|
+          if current_map.has_key?(v.id)
+            # TODO: if old object is not modified, use the new object instead
+            res << current_map[v.id]
+
+          else
+            res << v
+          end
+        end
+
+        @data = res
+
+      else
+        @data = new_data
+      end
+
+      @refresh = false
+    end
+
+    def id_map(list)
+      ret = {}
+      list.each { |v| ret[v.id] = v }
+      ret
     end
   end
 end

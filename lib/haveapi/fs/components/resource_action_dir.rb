@@ -44,7 +44,15 @@ module HaveAPI::Fs::Components
     protected
     def new_child(name)
       if @resource.actions.has_key?(name)
-        ActionDir.new(@resource, @resource.actions[name])
+        klass = case name
+        when :create
+          CreateActionDir
+
+        else
+          ActionDir
+        end
+        
+        klass.new(@resource, @resource.actions[name])
 
       elsif help_file?(name)
         help_file(name)
