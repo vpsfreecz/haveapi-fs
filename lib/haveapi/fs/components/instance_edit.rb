@@ -5,7 +5,11 @@ module HaveAPI::Fs::Components
     def initialize(instance_dir)
       super()
       @instance_dir = instance_dir
-      @update = @instance_dir.find(:actions).find(:update)
+    end
+
+    def setup
+      super
+      @update = @instance_dir.use(:actions, :update)
     end
 
     def writable?

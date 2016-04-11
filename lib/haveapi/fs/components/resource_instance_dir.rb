@@ -3,8 +3,8 @@ module HaveAPI::Fs::Components
     def setup
       super
      
-      @show = find(:actions).find(:show)
-      @update = find(:actions).find(:update)
+      @show = use(:actions, :show)
+      @update = use(:actions, :update)
       children[:save] = SaveInstance.new(self, bound: true) if @update
 
       # Disable object listing from ResourceDir.contents

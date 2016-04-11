@@ -79,8 +79,24 @@ module HaveAPI::Fs
       @children.set(name, setup_child(name, c)) if c
     end
 
+    def use(*names)
+      ret = self
+
+      names.each do |n|
+        ret = ret.find(n)
+        return if ret.nil?
+        ret.bound = true
+      end
+
+      ret
+    end
+
     def bound?
       @bound
+    end
+
+    def bound=(b)
+      @bound = b
     end
 
     def directory?
@@ -146,6 +162,8 @@ module HaveAPI::Fs
 
     def invalidate
       @invalid = true
+
+      children.each { |_, c| c.invalidate }
     end
 
     def invalid?

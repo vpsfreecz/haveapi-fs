@@ -9,7 +9,7 @@ module HaveAPI::Fs::Components
 
     def setup
       super
-      @index = find(:actions).find(:index)
+      @index = use(:actions, :index)
       @data = nil
     end
 

@@ -5,7 +5,11 @@ module HaveAPI::Fs::Components
     def initialize(resource_dir)
       super()
       @resource_dir = resource_dir
-      @create = @resource_dir.find(:actions).find(:create)
+    end
+
+    def setup
+      super
+      @create = @resource_dir.use(:actions, :create)
     end
 
     def writable?
