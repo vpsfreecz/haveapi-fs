@@ -8,7 +8,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      ret = super + %w(actions)
+      ret = super
       ret.concat(subresources.map(&:to_s))
       ret.concat(attributes)
       ret.concat(%w(save edit.yml)) if @update
