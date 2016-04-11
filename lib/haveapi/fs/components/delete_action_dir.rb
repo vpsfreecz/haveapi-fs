@@ -1,5 +1,7 @@
 module HaveAPI::Fs::Components
   class DeleteActionDir < ActionDir
+    help_file :action_dir
+
     def exec
       ret = super
       
