@@ -94,6 +94,7 @@ module HaveAPI::Fs::Components
       if @desc[:type] == 'Resource'
         return @new_value if @new_value
         return nil if @value.nil?
+        return nil if @value.attributes[@name].nil?
         @value.attributes[@name][@desc[:value_id].to_sym]
 
       else

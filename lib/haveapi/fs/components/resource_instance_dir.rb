@@ -59,12 +59,22 @@ module HaveAPI::Fs::Components
     end
 
     def attributes
-      @resource.actions[:show].params.select do |n, v|
-        v[:type] == 'Resource'
+      ret = []
+      params = @resource.actions[:show].params
 
-      end.map do |n, v|
-        "#{n}_id"
-      end + @resource.attributes.keys.reject { |v| v == :_meta }.map(&:to_s)
+      @resource.attributes.each do |k, v|
+        next if k == :_meta
+
+        if params[k][:type] == 'Resource'
+          ret << "#{k}_id"
+          ret << k.to_s if v
+
+        else
+          ret << k.to_s
+        end
+      end
+
+      ret
     end
 
     def title
@@ -84,7 +94,14 @@ module HaveAPI::Fs::Components
 
       elsif @resource.attributes.has_key?(name)
         if @show.action.params[name][:type] == 'Resource'
-          ResourceInstanceDir.new(@resource.send(name))
+          instance = @resource.send(name)
+
+          if instance
+            ResourceInstanceDir.new(instance)
+
+          else
+            nil
+          end
 
         else
           editable = @update.nil? ? false : @update.action.input_params.has_key?(name)
