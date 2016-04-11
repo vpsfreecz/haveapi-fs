@@ -18,7 +18,7 @@ module HaveAPI::Fs::Components
 
       ret = super + %w(actions) + subresources.map(&:to_s)
       ret.concat(@data.map { |v| v.id.to_s }) if @data
-      ret << 'create.yml'
+      ret << 'create.yml' if find(:actions).find(:create)
 
       if @index
         ret.concat(@index.action.input_params.keys.map { |v| "by-#{v}" })
@@ -71,7 +71,7 @@ module HaveAPI::Fs::Components
           end
         end
 
-      elsif name == :'create.yml'
+      elsif name == :'create.yml' && find(:actions).find(:create)
         InstanceCreate.new(self)
       
       elsif @index && name.to_s.start_with?('by-')
