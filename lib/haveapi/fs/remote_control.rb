@@ -3,13 +3,12 @@ module HaveAPI::Fs
     def self.execute(context, path)
       c = context.fs.send(:find_component, path)
 
-      unless c.is_a?(Components::ActionExec)
-        raise RuntimeError, "'#{c.class}' cannot be executed"
-      end
-
       ret = c.exec
 
       case ret
+      when true
+        {status: true}
+
       when HaveAPI::Client::Response
         {status: ret.ok?, message: ret.message, errors: ret.errors}
 
