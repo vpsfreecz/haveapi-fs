@@ -14,7 +14,7 @@ module HaveAPI::Fs
     module InstanceMethods
       protected
       def help_files
-        %i(html txt md).map { |v| :"help.#{v}" }
+        %i(html txt md man).map { |v| :"help.#{v}" }
       end
 
       def help_contents
@@ -34,6 +34,9 @@ module HaveAPI::Fs
 
         when :txt, :md
           Components::MdHelpFile.new(self, :md)
+
+        when :man
+          Components::GroffHelpFile.new(self, :md)
 
         else
           return nil
