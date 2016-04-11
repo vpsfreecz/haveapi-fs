@@ -6,23 +6,28 @@ output parameters.
 </p>
 <dl>
     <dt><a href="input/help.html">input/</a></dt>
-    <dd>Stage area for input parameters</dd>
+    <dd>Stage area for input parameters.</dd>
 
     <dt><a href="output/help.html">output/</a></dt>
-    <dd>Contains output parameters after the action was executed</dd>
+    <dd>Contains output parameters after the action was executed.</dd>
 
     <dt>exec</dt>
-    <dd>Write <code>1</code> to this file to execute the action</dd>
+    <dd>Write <code>1</code> to this file to execute the action.</dd>
+
+    <dt>exec.yml</dt>
+    <dd>Editable YAML file with input parameters. The action is executed when the file
+        is saved and closed.</dd>
     
     <dt>status</dt>
-    <dd>Read action status. <code>1</code> if successful, <code>0</code> if not, empty if not yet run</dd>
+    <dd>Read action status. <code>1</code> if successful, <code>0</code> if not, empty
+        if not yet run.</dd>
 
     <dt>message</dt>
-    <dd>Error message returned from the API</dd>
+    <dd>Error message returned from the API.</dd>
 
     <dt><a href="errors/help.html">errors/</a></dt>
-    <dd>List of parameter errors</dd>
+    <dd>List of parameter errors.</dd>
 
     <dt>reset</dt>
-    <dd>Reset input parameters</dd>
+    <dd>Reset input parameters.</dd>
 </dl>

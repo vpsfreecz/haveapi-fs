@@ -2,11 +2,17 @@
 <h2>Contents</h2>
 <p>
 This directory contains a list of objects as it is returned by the API server
-using action <code>Index</code>. Special directories
-<code>by-&lt;input_parameter&gt;/&lt;value&gt;</code>
-representing input parameters of action <code>Index</code> can be used to filter the output.
-</p>
-<p>
-Actions that are operating on resource-level, i.e. they are not taking object
-id as an argument are in subdirectory <a href="actions/help.html">actions/</a>.
-</p>
+using action <code>Index</code>.
+
+<dl>
+    <dt><code>by-&lt;input_parameter&gt;/&lt;value&gt;</code></dt>
+    <dd>Filter objects by input parameters of action <code>Index</code>.</dd>
+
+    <dt>actions/</dt>
+    <dd>Actions that are operating on resource-level, i.e. they are not taking object
+        id as an argument.</dd>
+
+    <dt>create.yml</dt>
+    <dd>Editable YAML file with input parameters of action <code>Create</code>. The action is
+        executed when the file is saved and closed.</dd>
+</dl>
