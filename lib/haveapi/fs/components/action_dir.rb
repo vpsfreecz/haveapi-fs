@@ -23,7 +23,9 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      super + %w(input output status message errors exec reset)
+      ret = super + %w(input output status message errors exec reset)
+      ret << 'exec.yml' if @action.input_params.any?
+      ret
     end
 
     def exec(meta: {})
@@ -85,6 +87,19 @@ module HaveAPI::Fs::Components
 
     def title
       @action.name.capitalize
+    end
+
+    protected
+    def new_child(name)
+      if child = super
+        child
+
+      elsif name == :'exec.yml' && @action.input_params.any?
+        ActionExecEdit.new(self)
+
+      else
+        nil
+      end
     end
   end
 end
