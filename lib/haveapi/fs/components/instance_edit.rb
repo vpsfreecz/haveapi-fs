@@ -32,7 +32,7 @@ END
         ret += "# #{p[:label]}; #{p[:type]}\n"
         ret += "# #{p[:description]}\n"
         ret += "# Defaults to '#{p[:default]}'\n" unless p[:default].nil?
-        ret += "#{name}: #{v}\n\n"
+        ret += "##{name}: #{v}\n\n"
       end
 
       ret
