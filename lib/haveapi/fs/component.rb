@@ -81,12 +81,15 @@ module HaveAPI::Fs
 
     def use(*names)
       ret = self
+      path = []
 
       names.each do |n|
         ret = ret.find(n)
         return if ret.nil?
-        ret.bound = true
+        path << ret
       end
+
+      path.each { |c| c.bound = true }
 
       ret
     end
