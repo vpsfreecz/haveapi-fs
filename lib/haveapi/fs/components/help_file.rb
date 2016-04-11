@@ -27,7 +27,8 @@ module HaveAPI::Fs::Components
           '..', '..', '..', '..',
           'templates',
           'help',
-          underscore(name) + ".#{@format}.erb",
+          @format.to_s,
+          underscore(name) + ".erb",
       ))
     end
 
