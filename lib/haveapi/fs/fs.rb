@@ -26,7 +26,7 @@ module HaveAPI::Fs
       )
       @api.setup
 
-      @path_cache = Cache.new
+      @path_cache = Cache.new(self)
       @context = Context.new
       @context.url = @opts[:api]
       @context.mountpoint = ::File.realpath(@opts[:mountpoint])
@@ -42,6 +42,7 @@ module HaveAPI::Fs
       Thread.abort_on_exception = true
       @cleaner = Cleaner.new(self, @root)
       @cleaner.start
+      @path_cache.start
     end
 
     def contents(path)
@@ -160,6 +161,7 @@ module HaveAPI::Fs
       puts "unmounted"
 
       @cleaner.stop
+      @path_cache.stop
     end
 
     def synchronize

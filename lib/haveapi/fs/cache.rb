@@ -1,6 +1,9 @@
+require 'thread'
+
 module HaveAPI::Fs
-  class Cache
-    def initialize
+  class Cache < Worker
+    def initialize(fs)
+      super
       @cache = {}
     end
 
@@ -27,6 +30,18 @@ module HaveAPI::Fs
     def drop_below(path)
       abs_path = '/' + path
       @cache.keys.select { |k| k.start_with?(abs_path) }.each { |k| @cache.delete(k) }
+    end
+
+    def start_delay
+      Cleaner::ATIME + 60
+    end
+
+    def work_period
+      Cleaner::ATIME / 2 + 60
+    end
+
+    def work
+      @cache.delete_if { |k, v| v.invalid? }
     end
   end
 end
