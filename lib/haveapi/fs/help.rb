@@ -26,8 +26,15 @@ module HaveAPI::Fs
       end
 
       def help_file(name)
-        format = name.to_s.split('.').last
-        Components::HelpFile.new(self, format.to_sym)
+        format = name.to_s.split('.').last.to_sym
+
+        case format
+        when :html
+          Components::HtmlHelpFile.new(self, format)
+
+        else
+          return nil
+        end
       end
     end
 

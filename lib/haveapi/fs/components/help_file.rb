@@ -7,11 +7,6 @@ module HaveAPI::Fs::Components
       @component = @c = component
       @context = component.context
       @format = format
-      @layout = ERB.new(::File.open(::File.join(template_dir, 'layout.erb')).read, 0, '-')
-      @template = ERB.new(
-          ::File.open(template_path(@c.class)).read,
-          0, '-'
-      )
     end
 
     def read
@@ -40,12 +35,8 @@ module HaveAPI::Fs::Components
       )
     end
 
-    def layout
-      @layout.result(binding { yield })
-    end
-
-    def asset(path)
-      ::File.join(@context.mountpoint, '.assets', path)
+    def layout(layout_erb)
+      layout_erb.result(binding { yield })
     end
   end
 end
