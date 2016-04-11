@@ -123,5 +123,9 @@ module HaveAPI::Fs::Components
     def set?
       @set      
     end
+
+    def unsaved?(n = nil)
+      set?
+    end
   end
 end

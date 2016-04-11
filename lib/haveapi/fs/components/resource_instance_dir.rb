@@ -4,7 +4,7 @@ module HaveAPI::Fs::Components
       super
       
       @update = find(:actions).find(:update)
-      children[:save] = SaveInstance.new(self) if @update
+      children[:save] = SaveInstance.new(self, bound: true) if @update
     end
 
     def contents

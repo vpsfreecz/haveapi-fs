@@ -10,8 +10,8 @@ module HaveAPI::Fs::Components
       end
     end
 
-    def initialize(action_dir)
-      super()
+    def initialize(action_dir, *args)
+      super(*args)
       @action_dir = action_dir
     end
 

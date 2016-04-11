@@ -3,8 +3,8 @@ module HaveAPI::Fs::Components
     attr_reader :action_dir
     attr_accessor :data
 
-    def initialize(action_dir)
-      super()
+    def initialize(action_dir, *args)
+      super(*args)
 
       @action_dir = action_dir
 

@@ -1,7 +1,7 @@
 module HaveAPI::Fs::Components
   class SaveInstance < Executable
-    def initialize(resource_dir)
-      super()
+    def initialize(resource_dir, *args)
+      super(*args)
       @resource_dir = resource_dir
     end
     def exec

@@ -32,8 +32,20 @@ module HaveAPI::Fs
         @store.clear
       end
 
+      def each(&block)
+        @store.each(&block)
+      end
+
       def select(&block)
         @store.select(&block)
+      end
+
+      def detect(&block)
+        @store.detect(&block)
+      end
+
+      def delete_if(&block)
+        @store.delete_if(&block)
       end
     end
 
@@ -47,7 +59,8 @@ module HaveAPI::Fs
 
     attr_accessor :context, :atime, :mtime, :ctime
 
-    def initialize
+    def initialize(bound: false)
+      @bound = bound
       @atime = @mtime = @ctime = Time.now
     end
 
@@ -59,6 +72,10 @@ module HaveAPI::Fs
       return @children[name] if @children.has_key?(name)
       c = new_child(name)
       @children.set(name, setup_child(name, c)) if c
+    end
+
+    def bound?
+      @bound
     end
 
     def directory?
@@ -111,6 +128,15 @@ module HaveAPI::Fs
 
     def parent
       context.object_path[-2][1]
+    end
+
+    def unsaved?(n = nil)
+      return @is_unsaved if n && @last_unsaved == n
+
+      child = @children.detect { |_, c| c.unsaved? }
+
+      @last_unsaved = n
+      @is_unsaved = !child.nil?
     end
 
     protected

@@ -1,6 +1,7 @@
 module HaveAPI::Fs::Components
   class ActionMessage < File
-    def initialize(action_dir)
+    def initialize(action_dir, *args)
+      super(*args)
       @action_dir = action_dir
     end
 

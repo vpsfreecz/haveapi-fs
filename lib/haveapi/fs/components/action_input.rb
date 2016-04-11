@@ -2,8 +2,8 @@ module HaveAPI::Fs::Components
   class ActionInput < Directory
     attr_reader :action_dir
 
-    def initialize(action_dir)
-      super()
+    def initialize(action_dir, *args)
+      super(*args)
       @action_dir = action_dir
     end
 

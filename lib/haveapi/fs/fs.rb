@@ -1,5 +1,6 @@
 $:.insert(0, '/home/aither/workspace/vpsfree.cz/dev1.orion/haveapi-client/lib')
 
+require 'thread'
 require 'rfusefs'
 require 'haveapi/client'
 
@@ -10,6 +11,8 @@ module HaveAPI::Fs
     def initialize(opts)
       @opts = opts
       p @opts
+
+      @mutex = Mutex.new
 
       @api = HaveAPI::Client::Client.new(
           @opts[:api],
@@ -34,6 +37,10 @@ module HaveAPI::Fs
       @root.context = @context.clone
       @root.context[:root] = @root
       @root.setup
+
+      Thread.abort_on_exception = true
+      @cleaner = Cleaner.new(self, @root)
+      @cleaner.start
     end
 
     def contents(path)
@@ -148,6 +155,16 @@ module HaveAPI::Fs
       guard { find_component(path).raw_close(path, *args) }
     end
 
+    def unmounted
+      puts "unmounted"
+
+      @cleaner.stop
+    end
+
+    def synchronize
+      @mutex.synchronize { yield }
+    end
+
     protected
     def find_component(path)
       @path_cache.get(path) do
@@ -180,7 +197,7 @@ module HaveAPI::Fs
     end
 
     def guard
-      yield
+      synchronize { yield }
 
     rescue => e
       raise e if e.is_a?(::SystemCallError)

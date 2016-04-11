@@ -13,13 +13,13 @@ module HaveAPI::Fs::Components
     def setup
       super
 
-      children[:status] = ActionStatus.new(self)
-      children[:message] = ActionMessage.new(self)
-      children[:errors] = ActionErrors.new(self)
-      children[:input] = ActionInput.new(self)
-      children[:output] = ActionOutput.new(self)
-      children[:exec] = ActionExec.new(self)
-      children[:reset] = DirectoryReset.new
+      children[:status] = ActionStatus.new(self, bound: true)
+      children[:message] = ActionMessage.new(self, bound: true)
+      children[:errors] = ActionErrors.new(self, bound: true)
+      children[:input] = ActionInput.new(self, bound: true)
+      children[:output] = ActionOutput.new(self, bound: true)
+      children[:exec] = ActionExec.new(self, bound: true)
+      children[:reset] = DirectoryReset.new(bound: true)
     end
 
     def contents
