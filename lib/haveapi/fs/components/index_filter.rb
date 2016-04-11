@@ -28,6 +28,8 @@ module HaveAPI::Fs::Components
   end
 
   class IndexFilterValue < ResourceDir
+    help_file :resource_dir
+
     def initialize(resource, filters)
       super(resource)
 
