@@ -49,6 +49,7 @@ module HaveAPI::Fs::Components
 
       data = YAML.load(str)
       raise Errno::EIO, 'invalid yaml document' unless data.is_a?(::Hash)
+      return unless save?(data)
 
       params = @action_dir.action.input_params
 
@@ -60,7 +61,7 @@ module HaveAPI::Fs::Components
         p.write_safe(v)
       end
 
-      @action_dir.exec
+      save
     end
 
     def header
@@ -76,6 +77,14 @@ module HaveAPI::Fs::Components
 #
 # To cancel the operation, either do not save the file or save it empty.
 END
+    end
+
+    def save?(data)
+      true
+    end
+
+    def save
+      @action_dir.exec
     end
   end
 end

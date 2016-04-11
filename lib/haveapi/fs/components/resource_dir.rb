@@ -71,8 +71,8 @@ module HaveAPI::Fs::Components
           end
         end
 
-      elsif name == :'create.yml' && find(:actions).find(:create)
-        InstanceCreate.new(self)
+      elsif name == :'create.yml' && create_dir = use(:actions, :create)
+        InstanceCreate.new(create_dir)
       
       elsif @index && name.to_s.start_with?('by-')
         by_param = name.to_s[3..-1].to_sym

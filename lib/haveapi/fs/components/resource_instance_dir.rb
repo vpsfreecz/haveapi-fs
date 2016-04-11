@@ -132,8 +132,8 @@ module HaveAPI::Fs::Components
             mirror: editable && @update.find(:input).find(real_name),
         )
 
-      elsif name == :'edit.yml'
-        InstanceEdit.new(self) if @update
+      elsif name == :'edit.yml' && @update
+        InstanceEdit.new(@update)
 
       else
         nil
