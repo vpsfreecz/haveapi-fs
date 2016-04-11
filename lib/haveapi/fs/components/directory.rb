@@ -7,7 +7,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      help_contents + %w(.reset)
+      help_contents + %w(.reset .unsaved)
     end
 
     protected
@@ -17,6 +17,9 @@ module HaveAPI::Fs::Components
 
       elsif name == :'.reset'
         DirectoryReset.new
+
+      elsif name == :'.unsaved'
+        UnsavedList.new
 
       else
         nil
