@@ -9,12 +9,6 @@ module HaveAPI::Fs::Components
       @format = format
     end
 
-    def read
-      layout do
-        @template.result(binding)
-      end
-    end
-
     protected
     def template_dir
       ::File.realpath(::File.join(

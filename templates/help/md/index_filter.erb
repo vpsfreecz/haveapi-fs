@@ -1,0 +1,11 @@
+CONTENTS
+--------
+Although this directory is empty, any given path will serve as a value for
+filtering output of `Index` action of this resource using the following
+parameters:
+
+<% @c.filters.each do |k, v| %>
+*<%= k %>* = `<%= v %>`
+<% end -%>
+
+*<%= @c.param %>* remains to be set

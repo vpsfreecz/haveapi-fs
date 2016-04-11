@@ -1,0 +1,29 @@
+CONTENTS
+--------
+This directory is used to prepare input parameters, execute the action and retrieve
+output parameters.
+
+`input/`
+  Stage area for input parameters.
+
+`output/`
+  Contains output parameters after the action was executed.
+
+`exec`
+  Write `1` to this file to execute the action.
+
+`exec.yml`
+  Editable YAML file with input parameters. The action is executed when the
+  file is saved and closed.
+    
+`status`
+  Read action status. `1` if successful, `0` if not, empty if not yet run.
+
+`message`
+  Error message returned from the API.
+
+`errors/`
+  List of parameter errors.
+
+`reset`
+  Reset input parameters.

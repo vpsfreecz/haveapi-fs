@@ -1,0 +1,22 @@
+SPECIAL FILES
+-------------
+Every directory can contain the following special files:
+
+`help.html`
+  Auto-generated files containing information about the current directory.
+
+`.unsaved`
+  Contains a list of subdirectories and files that have been modified and not
+  saved.
+
+`.reset`
+  An executable that resets the current directory upon invocation, i.e. all
+  descendant directories and files are dropped from memory and will have to
+  be loaded again.
+
+RESOURCES
+---------
+<% @c.resources.each do |name, r| %>
+*<%= safe_print(name) %>*
+  <%= r.description[:description] %>
+<% end -%>

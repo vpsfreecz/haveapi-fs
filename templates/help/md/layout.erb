@@ -1,0 +1,14 @@
+HAVEAPI-FS 7 "Apr 2016" <%= @context.url %> "<%= @c.title %>"
+========================<%= '=' * (@c.title.length + @context.url.length) %>===
+
+LOCATION
+--------
+Connected to API at <%= @context.url %>
+
+<% i = 0 -%>
+<% @c.context.object_path[1..-1].each do |_, v| -%>
+    <%= '  ' * i %>- <%= v.title %>  
+<% i += 1 -%>
+<% end -%>
+
+<%= yield %>

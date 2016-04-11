@@ -14,7 +14,7 @@ module HaveAPI::Fs
     module InstanceMethods
       protected
       def help_files
-        %i(html).map { |v| :"help.#{v}" }
+        %i(html txt md).map { |v| :"help.#{v}" }
       end
 
       def help_contents
@@ -31,6 +31,9 @@ module HaveAPI::Fs
         case format
         when :html
           Components::HtmlHelpFile.new(self, format)
+
+        when :txt, :md
+          Components::MdHelpFile.new(self, :md)
 
         else
           return nil

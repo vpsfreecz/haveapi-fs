@@ -1,0 +1,11 @@
+CONTENTS
+--------
+Every output parameter is represented by a read-only file. The directory is empty
+until the action has been executed.
+
+<% @c.action_dir.action.params.each do |name, desc| %>
+*<%= safe_print(name) %>*
+  Label:       <%= desc[:label] %>  
+  Data type:   <%= desc[:type] %>
+  Description: <%= desc[:description] %>
+<% end -%>

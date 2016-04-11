@@ -1,0 +1,23 @@
+CONTENTS
+--------
+Every input parameter is represented by a file that can be written to. If a file
+is not changed, the parameter it represents will not be sent to the API -- it is
+possible to send only a subset of input parameters.
+
+<% @c.action_dir.action.input_params.each do |name, desc| %>
+*<%= safe_print(name) %>*
+  Label:       <%= desc[:label] %>  
+  Required:    <%= desc[:required] ? 'yes' : 'no' %>  
+  Data type:   <%= desc[:type] %>
+<% if desc[:validators] -%>
+  Validators:  
+<% desc[:validators].each do |name, desc| -%>
+               <%= name.capitalize %>
+<% desc.each do |k, v| -%>
+                 - *<%= safe_print(k) %>* <%= v ? "`#{v}`" : '' %>
+<% end -%>
+<% end -%>
+<% end -%>
+  Default:     <%= desc[:default] %>
+  Description: <%= desc[:description] %>
+<% end -%>

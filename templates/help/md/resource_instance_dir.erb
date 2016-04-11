@@ -1,0 +1,42 @@
+CONTENTS
+--------
+This directory contains output parameters of action `show`, instance-level
+actions and subresources. Associated resources are represented by a directory.
+
+`<parameter>`
+  Output parameters from action `show`. Parameters that are also input
+  parameters of action `update` are writable.
+
+`<association>/`
+  Associated resource is accessible as a nested resource instance.
+
+`<association_id>`
+  To change the associated resource, write its id to this file.
+
+`save`
+  Trigger the update action. The same as using `actions/update/exec`.
+    
+`edit.yml`
+  Editable YAML file with input parameters of action `Update`. The action is
+  executed when the file is saved and closed.
+
+`<subresource>/`
+  Access to subresources.
+
+ATTRIBUTES
+----------
+<% @c.resource.attributes.each_key do |name| %>
+<% next if name == :_meta -%>
+<% desc = @c.resource.actions[:show].params[name] -%>
+*<%= safe_print(name) %>*
+  Label:       <%= desc[:label] %>  
+  Type:        <%= desc[:type] %>  
+  Description: <%= desc[:description] %>  
+<% end -%>
+
+SUBRESOURCES
+------------
+<% @c.subresources.each do |name| %>
+*<%= safe_print(name) %>*
+  <%= @c.resource.resources[name].description[:description] %>
+<% end -%>

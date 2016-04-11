@@ -1,0 +1,10 @@
+CONTENTS
+--------
+This directory contains a list of actions that are operating on
+<%= @c.instance? ? 'instance-level' : 'resource-level' %>.
+
+<% @c.relevant_actions.each do |name| %>
+<% a = @c.resource.actions[name] -%>
+`<%= safe_print(name) %>`
+  <%= a.description %>
+<% end -%>
