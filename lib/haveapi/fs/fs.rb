@@ -30,6 +30,7 @@ module HaveAPI::Fs
       @context = Context.new
       @context.url = @opts[:api]
       @context.mountpoint = ::File.realpath(@opts[:mountpoint])
+      @context.cache = @path_cache
       @context[:fs] = self
 
       @check_file = FuseFS::Fuse::Root::CHECK_FILE[1..-1].to_sym

@@ -24,11 +24,17 @@ module HaveAPI::Fs::Components
     def replace_association(name, id)
       return unless children.has_key?(name)
 
+      children[name].invalidate
+      context.cache.drop_below(path)
+
       @resource.send("#{name}_id=", id)
       children[name] = setup_child(name, ResourceInstanceDir.new(@resource.send(name)))
     end
 
     def update_association(name)
+      children[name].invalidate
+      context.cache.drop_below(path)
+
       children[name] = setup_child(name, ResourceInstanceDir.new(@resource.send(name)))
     end
 

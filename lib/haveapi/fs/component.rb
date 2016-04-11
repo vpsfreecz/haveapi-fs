@@ -15,6 +15,11 @@ module HaveAPI::Fs
       end
 
       def []=(k, v)
+        if @store.has_key?(k)
+          v.invalidate
+          v.context.cache.drop_below(v.path)
+        end
+
         v.context = context.clone
         v.context.last.send(:setup_child, k, v)
         @store[k] = v     
@@ -137,6 +142,14 @@ module HaveAPI::Fs
 
       @last_unsaved = n
       @is_unsaved = !child.nil?
+    end
+
+    def invalidate
+      @invalid = true
+    end
+
+    def invalid?
+      @invalid
     end
 
     protected
