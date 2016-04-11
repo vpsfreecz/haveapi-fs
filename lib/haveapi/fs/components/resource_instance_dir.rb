@@ -133,7 +133,7 @@ module HaveAPI::Fs::Components
         )
 
       elsif name == :'edit.yml'
-        InstanceEdit.new(self)
+        InstanceEdit.new(self) if @update
 
       else
         nil
