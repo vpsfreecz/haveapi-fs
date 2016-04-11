@@ -2,9 +2,13 @@ module HaveAPI::Fs::Components
   class ResourceInstanceDir < ResourceDir
     def setup
       super
-      
+     
+      @show = find(:actions).find(:show)
       @update = find(:actions).find(:update)
       children[:save] = SaveInstance.new(self, bound: true) if @update
+
+      # Disable object listing from ResourceDir.contents
+      @index = false
     end
 
     def contents
@@ -79,7 +83,7 @@ module HaveAPI::Fs::Components
         ResourceDir.new(@resource.send(name))
 
       elsif @resource.attributes.has_key?(name)
-        if @index.action.params[name][:type] == 'Resource'
+        if @show.action.params[name][:type] == 'Resource'
           ResourceInstanceDir.new(@resource.send(name))
 
         else
