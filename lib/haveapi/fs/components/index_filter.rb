@@ -22,7 +22,7 @@ module HaveAPI::Fs::Components
       
       else
         @filters[ @param ] = value.to_s
-        IndexFilterValue.new(@resource_dir.resource, @filters)
+        IndexFilterValue.new(@resource_dir.resource, @filters.clone)
       end
     end
   end
