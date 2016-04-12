@@ -12,7 +12,7 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      ret = super
+      ret = super - %w(create.yml)
       ret.concat(attributes)
       ret.concat(%w(save edit.yml)) if @update
       ret
