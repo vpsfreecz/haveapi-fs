@@ -82,7 +82,7 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      if child = super
+      if child = Directory.instance_method(:new_child).bind(self).call(name)
         child
       
       elsif name == :actions
