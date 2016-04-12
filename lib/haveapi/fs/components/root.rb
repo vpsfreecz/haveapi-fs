@@ -10,7 +10,8 @@ module HaveAPI::Fs::Components
     end
 
     def contents
-      super + @api.resources.keys.map(&:to_s)
+      super + %w(.client_version .fs_version .protocol_version) + \
+        @api.resources.keys.map(&:to_s)
     end
 
     def resources
@@ -29,20 +30,32 @@ module HaveAPI::Fs::Components
       elsif @api.resources.has_key?(name)
         ResourceDir.new(@api.resources[name])
 
-      elsif name == :'.remote_control'
-        RemoteControlFile.new
-
-      elsif name == :'.assets'
-        MetaDir.new(
-            ::File.join(
-                ::File.realpath(::File.dirname(__FILE__)),
-                '..', '..', '..', '..',
-                'assets'
-            )
-        )
-
       else
-        nil
+        case name
+        when :'.remote_control'
+          RemoteControlFile.new
+
+        when :'.assets'
+          MetaDir.new(
+              ::File.join(
+                  ::File.realpath(::File.dirname(__FILE__)),
+                  '..', '..', '..', '..',
+                  'assets'
+              )
+          )
+
+        when :'.client_version'
+          ClientVersion.new
+
+        when :'.fs_version'
+          FsVersion.new
+
+        when :'.protocol_version'
+          ProtocolVersion.new
+
+        else
+          nil
+        end
       end
     end
   end

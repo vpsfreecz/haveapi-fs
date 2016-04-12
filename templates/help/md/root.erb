@@ -13,6 +13,18 @@ Every directory can contain the following special files:
   An executable that resets the current directory upon invocation, i.e. all
   descendant directories and files are dropped from memory and will have to
   be loaded again.
+  
+INFORMATION FILES
+-----------------
+`.client_version`
+  Version of `haveapi-client`.
+
+`.fs_version`
+  Version of this filesystem.
+
+`.protocol_version`
+  Version of HaveAPI protocol that `haveapi-client` supports.
+  This filesystem works only with APIs using compatible protocol.
 
 RESOURCES
 ---------
