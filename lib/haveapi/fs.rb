@@ -1,5 +1,7 @@
 module HaveAPI
   module Fs
+    module Auth ; end
+
     def self.new(*args)
       HaveAPI::Fs::Fs.new(*args)
     end
@@ -16,6 +18,10 @@ require_relative 'fs/component'
 require_relative 'fs/help'
 require_relative 'fs/remote_control'
 require_relative 'fs/version'
+require_relative 'fs/auth/base'
+require_relative 'fs/auth/basic'
+require_relative 'fs/auth/token'
+require_relative 'fs/auth/noauth'
 require_relative 'fs/components/directory'
 require_relative 'fs/components/file'
 require_relative 'fs/components/executable'
