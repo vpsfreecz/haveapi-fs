@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
 
   spec.add_runtime_dependency 'rfusefs', '~> 1.0.3'
-  spec.add_runtime_dependency 'haveapi-client', '~> 0.5.3'
+  spec.add_runtime_dependency 'haveapi-client', '~> 0.5.4'
   spec.add_runtime_dependency 'md2man', '~> 5.1.1'
   spec.add_runtime_dependency 'highline', '~> 1.7.8'
 end
