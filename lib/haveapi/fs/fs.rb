@@ -8,23 +8,11 @@ module HaveAPI::Fs
   class Fs
     attr_reader :api
 
-    def initialize(opts)
+    def initialize(api, opts)
+      @api = api
       @opts = opts
-      p @opts
 
       @mutex = Mutex.new
-
-      @api = HaveAPI::Client::Client.new(
-          @opts[:api],
-          @opts[:version],
-          identity: 'haveapi-fs'
-      )
-      @api.authenticate(
-          @opts[:auth_method].to_sym,
-          user: @opts[:username],
-          password: @opts[:password],
-      )
-      @api.setup
 
       @path_cache = Cache.new(self)
       @context = Context.new

@@ -6,6 +6,7 @@ module HaveAPI
   end
 end
 
+require_relative 'fs/main'
 require_relative 'fs/fs'
 require_relative 'fs/context'
 require_relative 'fs/worker'
