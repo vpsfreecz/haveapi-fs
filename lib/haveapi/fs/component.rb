@@ -190,6 +190,7 @@ module HaveAPI::Fs
 
     def drop_children
       @children.clear
+      context.cache.drop_below(path)
     end
 
     def changed
