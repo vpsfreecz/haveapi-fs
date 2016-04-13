@@ -1,4 +1,6 @@
 require 'highline/import'
+require 'uri'
+require 'optparse'
 require 'yaml'
 
 module HaveAPI::Fs
@@ -35,14 +37,42 @@ module HaveAPI::Fs
     cfg[:servers].detect { |s| s[:url] == url }
   end
 
+  def self.daemonize(opts)
+    home = ::File.join(Dir.home, '.haveapi-fs', URI(opts[:device]).host)
+    FileUtils.mkpath(home)
+    
+    pid = Process.fork
+
+    if pid
+      exit # Parent 1
+
+    else
+      pid = Process.fork
+      exit if pid # Parent 2
+    end
+
+    # Only the child gets here
+    STDIN.close
+    
+    f = File.open(
+        opts[:log] ? File.join(home, 'haveapi-fs.log') : '/dev/null',
+        'w'
+    )
+
+    STDOUT.reopen(f)
+    STDERR.reopen(f)
+  end
+
   def self.main
-    options = %i(api version auth_method user password token)
+    options = %i(api version auth_method user password token nodaemonize log)
     usage = <<END
         version=VERSION        API version to use
         auth_method=METHOD     Authentication method (basic, token, noauth)
         user                   Username
         password               Password
         token                  Authentication token
+        nodaemonize            Stay in the foreground
+        log                    Enable logging while daemonized
 END
 
     FuseFS.main(ARGV, options, usage, 'api_url') do |opts|
@@ -69,6 +99,8 @@ END
 
       # Verify that authentication works
       auth.check(client)
+
+      daemonize(opts) unless opts[:nodaemonize]
 
       HaveAPI::Fs.new(client, opts)
     end

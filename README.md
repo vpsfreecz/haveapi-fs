@@ -30,6 +30,8 @@ Debian:
         user                   Username
         password               Password
         token                  Authentication token
+        nodaemonize            Stay in the foreground
+        log                    Enable logging while daemonized
 
 ## Example
 The following example uses [vpsadmin-api](https://github.com/vpsfreecz/vpsadmin-api),
