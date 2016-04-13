@@ -15,6 +15,11 @@ module HaveAPI::Fs::Components
       @dir.entries[2..-1]
     end
 
+    def times
+      st = ::File.stat(@path)
+      [st.atime, st.mtime, st.ctime]
+    end
+
     protected
     def new_child(name)
       real_name = name.to_s

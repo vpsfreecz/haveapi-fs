@@ -5,6 +5,11 @@ module HaveAPI::Fs::Components
       @path = path
     end
 
+    def times
+      st = ::File.stat(@path)
+      [st.atime, st.mtime, st.ctime]
+    end
+
     def size
       ::File.size(@path)
     end
