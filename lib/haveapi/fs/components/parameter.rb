@@ -4,7 +4,7 @@ module HaveAPI::Fs::Components
   class Parameter < File
     attr_reader :new_value
 
-    def initialize(action, name, dir, value = nil, editable: nil, mirror: nil)
+    def initialize(action, name, dir, value = nil, opts = {})
       super()
 
       @action = action
@@ -12,7 +12,7 @@ module HaveAPI::Fs::Components
       @dir = dir
       @value = value
       @set = false
-      @mirror = mirror
+      @mirror = opts[:mirror]
       
       if dir == :input
         @params = @action.input_params
@@ -23,11 +23,11 @@ module HaveAPI::Fs::Components
 
       @desc = @params[@name]
 
-      if editable.nil?
+      if opts[:editable].nil?
         @writable = dir == :input
 
       else
-        @writable = editable
+        @writable = opts[:editable]
       end
     end
 
