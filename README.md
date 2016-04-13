@@ -26,7 +26,7 @@ allows it to be browsed and interacted with as directories and files.
         token                  Authentication token
 
 ## Example
-The following example uses [vpsadmin-api](https://github.com/vpsfreecz/vpsadmin-api)
+The following example uses [vpsadmin-api](https://github.com/vpsfreecz/vpsadmin-api),
 which requires users to be authenticated.
 
 `haveapi-fs` supports all available authentication methods, it defaults to
@@ -39,7 +39,7 @@ supplied as options using `-o`.
 
 The root directory contains a list of top-level resources in the API
 represented by directories. `help.{html,man,md,txt}` files are to be found in
-every directory in this filesystem and contains information about the current
+every directory in this filesystem and contain information about the current
 directory.
 
     $ cd /mnt/api.vpsfree.cz
@@ -59,7 +59,7 @@ directory.
     ├── .reset
     └── .unsaved
 
-Inside a resource directory we can see the objects themselves as a directories
+Inside a resource directory we can see the objects themselves as directories
 whose name is their id.
 
     $ tree -L 1 vps
