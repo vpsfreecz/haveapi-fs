@@ -194,3 +194,17 @@ descendants.
 
 To drop these unsaved files, use executable `.reset`, which is also located in
 every directory.
+
+## Access time, modification time and creation time
+Access time is always updated, it is used to decide which directories/files may
+be freed from memory. Components not accessed within the last 10 minutes are
+regularly freed.
+
+Modification time is changed only for files representing input parameters or
+instance attributes.
+
+Creation time is advertised as the time at which the component (directory/file)
+was created in memory, i.e. for some components that is when they were fetched
+from the API. As of now, components with creation time older than 30 minutes
+are regularly freed from memory to ensure that the files and data you see are
+still actually in the API, or have not been modified.
