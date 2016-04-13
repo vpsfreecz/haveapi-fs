@@ -4,6 +4,12 @@ HaveAPI Filesystem
 with any API based on [HaveAPI](https://github.com/vpsfreecz/haveapi) and
 allows it to be browsed and interacted with as directories and files.
 
+## Requirements
+FUSE has to be enabled in kernel and userspace utilities installed, e.g. on
+Debian:
+
+    $ apt-get install fuse libfuse-dev
+
 ## Installation
 
     $ gem install haveapi-fs
