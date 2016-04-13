@@ -16,7 +16,7 @@ module HaveAPI::Fs
 
       @path_cache = Cache.new(self)
       @context = Context.new
-      @context.url = @opts[:api]
+      @context.url = @opts[:device]
       @context.mountpoint = ::File.realpath(@opts[:mountpoint])
       @context.cache = @path_cache
       @context[:fs] = self

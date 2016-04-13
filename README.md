@@ -12,14 +12,13 @@ allows it to be browsed and interacted with as directories and files.
 
     $ haveapi-fs -h
     Usage:
-     haveapi-fs  mountpoint [-h] [-d] [-o [opt,optkey=value,...]]
+     haveapi-fs api_url mountpoint [-h] [-d] [-o [opt,optkey=value,...]]
     
     Fuse options: (2.9)
     -h                     help - print this help output
     -d |-o debug           enable internal FUSE debug output
 
     Filesystem options:
-        api=URL                URL to the API server
         version=VERSION        API version to use
         auth_method=METHOD     Authentication method (basic, token, noauth)
         user                   Username
@@ -34,7 +33,7 @@ which requires users to be authenticated.
 HTTP basic and it will prompt the user to input credentials, if they are not
 supplied as options using `-o`.
 
-    $ haveapi-fs /mnt/api.vpsfree.cz -o api=https://api.vpsfree.cz
+    $ haveapi-fs https://api.vpsfree.cz /mnt/api.vpsfree.cz
     User name: <username>
     Password:
 

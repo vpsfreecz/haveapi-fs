@@ -38,7 +38,6 @@ module HaveAPI::Fs
   def self.main
     options = %i(api version auth_method user password token)
     usage = <<END
-        api=URL                URL to the API server
         version=VERSION        API version to use
         auth_method=METHOD     Authentication method (basic, token, noauth)
         user                   Username
@@ -46,12 +45,12 @@ module HaveAPI::Fs
         token                  Authentication token
 END
 
-    FuseFS.main(ARGV, options, usage) do |opts|
-      fail "set option 'api'" unless opts[:api]
+    FuseFS.main(ARGV, options, usage, 'api_url') do |opts|
+      fail "provide argument 'api_url'" unless opts[:device]
 
-      cfg = server_config(opts[:api])
+      cfg = server_config(opts[:device])
       client = HaveAPI::Client::Client.new(
-          opts[:api],
+          opts[:device],
           opts[:version],
           identity: 'haveapi-fs',
       )
