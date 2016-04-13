@@ -33,6 +33,24 @@ Debian:
         nodaemonize            Stay in the foreground
         log                    Enable logging while daemonized
 
+## `/etc/fstab` entry
+
+There are two ways in which `haveapi-fs` can be added to `/etc/fstab`. Both
+require that the `haveapi-fs` executable is in `$PATH`. The first approach is
+to use `mount.fuse`:
+
+    # <fs>                             <mountpoint>         <type>      <opts>  <dump/pass>
+    haveapi-fs#https://api.domain.tld  /mnt/api.domain.tld   fuse        user      0   0
+
+The other way is to link `/sbin/mount.haveapi-fs` to `haveapi-fs`, e.g.:
+
+    $ ln -s `which haveapi-fs` /sbin/mount.haveapi-fs
+
+Then we can use filesystem type `haveapi-fs` in fstab directly:
+
+    # <fs>                             <mountpoint>         <type>      <opts>  <dump/pass>
+    https://api.domain.tld             /mnt/api.domain.tld  haveapi-fs   user      0   0   
+
 ## Example
 The following example uses [vpsadmin-api](https://github.com/vpsfreecz/vpsadmin-api),
 which requires users to be authenticated.
