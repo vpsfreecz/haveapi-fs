@@ -6,6 +6,8 @@ require 'haveapi/client'
 
 module HaveAPI::Fs
   class Fs
+    CHECK_FILE = FuseFS::Fuse::Root::CHECK_FILE[1..-1].to_sym
+
     attr_reader :api
 
     def initialize(api, opts)
@@ -21,7 +23,6 @@ module HaveAPI::Fs
       @context.cache = @path_cache
       @context[:fs] = self
 
-      @check_file = FuseFS::Fuse::Root::CHECK_FILE[1..-1].to_sym
       @root = Components::Root.new
       @root.context = @context.clone
       @root.context[:root] = @root
@@ -167,13 +168,7 @@ module HaveAPI::Fs
         next(tmp) unless names
 
         names.each do |n|
-          if n === @check_file
-            tmp = Components::RFuseCheck.new
-            break
-
-          else
-            tmp = tmp.find(n)
-          end
+          tmp = tmp.find(n)
           
           if tmp.nil?
             raise Errno::ENOENT, "'#{path}' not found"

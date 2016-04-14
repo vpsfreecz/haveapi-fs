@@ -12,16 +12,19 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      if help_file?(name)
-        help_file(name)
+      return help_file(name) if help_file?(name)
 
-      elsif name == :'.reset'
+      case name
+      when HaveAPI::Fs::Fs::CHECK_FILE
+        RFuseCheck.new
+
+      when :'.reset'
         DirectoryReset.new
 
-      elsif name == :'.unsaved'
+      when :'.unsaved'
         UnsavedList.new
 
-      elsif name == :'.components'
+      when :'.components'
         ComponentList.new
 
       else
