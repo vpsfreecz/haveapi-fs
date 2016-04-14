@@ -11,6 +11,7 @@ module HaveAPI::Fs::Components
           drops: c.drops,
           hitratio: (c.hits.to_f / (c.hits + c.misses + c.invalid) * 100).round(2),
           sweeps: c.runs,
+          last_sweep: (c.last_time && c.last_time.iso8601) || '-',
           next_sweep: c.next_time.iso8601,
       }.map { |k, v| sprintf('%-15s %s', "#{k}:", v) }.join("\n") + "\n"
     end

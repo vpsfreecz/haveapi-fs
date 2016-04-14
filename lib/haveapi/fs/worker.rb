@@ -19,8 +19,13 @@ module HaveAPI::Fs
 
         while @run do
           @fs.synchronize { work }
+
           @runs += 1
-          @mutex.synchronize { @next_time = Time.now + work_period }
+          @mutex.synchronize do
+            @last_time = Time.now
+            @next_time = @last_time + work_period
+          end
+
           wait(work_period)
         end
       end
@@ -37,6 +42,10 @@ module HaveAPI::Fs
 
     def wait(n)
       IO.select([@pipe_r], [], [], n)
+    end
+
+    def last_time
+      @mutex.synchronize { @last_time }
     end
 
     def next_time
