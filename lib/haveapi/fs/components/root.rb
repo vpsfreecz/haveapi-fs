@@ -53,6 +53,9 @@ module HaveAPI::Fs::Components
         when :'.protocol_version'
           ProtocolVersion.new
 
+        when :'.cache'
+          CacheStats.new
+
         else
           nil
         end

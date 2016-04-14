@@ -2,9 +2,19 @@ require 'thread'
 
 module HaveAPI::Fs
   class Cache < Worker
+    attr_reader :hits, :misses, :invalid, :drops
+
     def initialize(fs)
       super
       @cache = {}
+      @hits = 0
+      @misses = 0
+      @invalid = 0
+      @drops = 0
+    end
+
+    def size
+      @cache.size
     end
 
     def get(path, &block)
@@ -12,13 +22,16 @@ module HaveAPI::Fs
 
       if obj
         if obj.invalid?
+          @invalid += 1
           @cache[path] = block.call
 
         else
+          @hits += 1
           obj
         end
 
       else
+        @misses += 1
         @cache[path] = block.call
       end
     end
@@ -29,7 +42,9 @@ module HaveAPI::Fs
 
     def drop_below(path)
       abs_path = '/' + path
-      @cache.keys.select { |k| k.start_with?(abs_path) }.each { |k| @cache.delete(k) }
+      keys = @cache.keys.select { |k| k.start_with?(abs_path) }
+      @drops += keys.count
+      keys.each { |k| @cache.delete(k) }
     end
 
     def start_delay
