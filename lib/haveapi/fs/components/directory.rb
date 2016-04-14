@@ -21,6 +21,9 @@ module HaveAPI::Fs::Components
       elsif name == :'.unsaved'
         UnsavedList.new
 
+      elsif name == :'.components'
+        ComponentList.new
+
       else
         nil
       end
