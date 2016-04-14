@@ -1,6 +1,4 @@
-require 'highline/import'
 require 'uri'
-require 'optparse'
 require 'yaml'
 
 module HaveAPI::Fs

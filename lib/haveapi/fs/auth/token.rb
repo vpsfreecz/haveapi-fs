@@ -1,3 +1,5 @@
+require 'highline/import'
+
 module HaveAPI::Fs::Auth
   class Token < Base
     register :token
