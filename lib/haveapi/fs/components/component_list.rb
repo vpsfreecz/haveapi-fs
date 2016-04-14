@@ -1,7 +1,9 @@
 module HaveAPI::Fs::Components
   class ComponentList < File
     def read
-      str = component_list.map { |c| "#{c.path} #{c.class.name}" }.join("\n")
+      str = component_list.map do |c|
+        sprintf('%-50s %s', c.class.name, c.path)
+      end.join("\n")
       str += "\n" unless str.empty?
       str
     end
