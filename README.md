@@ -228,3 +228,15 @@ was created in memory, i.e. for some components that is when they were fetched
 from the API. As of now, components with creation time older than 30 minutes
 are regularly freed from memory to ensure that the files and data you see are
 still actually in the API, or have not been modified.
+
+## Troubleshooting
+Whenever `haveapi-fs` crashes, throws IO errors or misbehaves, helpful
+information can be found in the log file. Logging is disabled by default when
+daemonized, as it can grow large. It can be enabled using option `log`. The log
+file is located at `~/.haveapi-fs/<api domain>/haveapi-fs.log`.
+
+If `haveapi-fs` is run in the foreground using option `nodaemonize`, it logs
+to standard output.
+
+Whenever reporting an error, send also contents of the log file or search it
+for a relevant backtrace.
