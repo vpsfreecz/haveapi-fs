@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'pry', '~> 0.10.3'
 
   spec.add_runtime_dependency 'rfusefs', '~> 1.0.3'
   spec.add_runtime_dependency 'haveapi-client', '~> 0.5.4'

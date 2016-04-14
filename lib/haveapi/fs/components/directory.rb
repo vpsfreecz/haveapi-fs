@@ -27,6 +27,9 @@ module HaveAPI::Fs::Components
       when :'.components'
         ComponentList.new
 
+      when :'.pry'
+        HaveAPI::Fs::Components::Pry.new
+
       else
         nil
       end
