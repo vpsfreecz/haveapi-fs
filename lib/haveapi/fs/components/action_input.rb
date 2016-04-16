@@ -16,7 +16,7 @@ module HaveAPI::Fs::Components
     end
 
     def values
-      Hash[children.select { |n, c| c.set? }.map { |n, c| [n, c.value] }]
+      Hash[children.select { |n, c| c.is_a?(Parameter) && c.set? }.map { |n, c| [n, c.value] }]
     end
 
     def title
