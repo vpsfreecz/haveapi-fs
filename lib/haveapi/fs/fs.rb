@@ -12,14 +12,14 @@ module HaveAPI::Fs
 
     def initialize(api, opts)
       @api = api
-      @opts = opts
 
       @mutex = Mutex.new
 
       @path_cache = Cache.new(self)
       @context = Context.new
-      @context.url = @opts[:device]
-      @context.mountpoint = ::File.realpath(@opts[:mountpoint])
+      @context.opts = opts
+      @context.url = opts[:device]
+      @context.mountpoint = ::File.realpath(opts[:mountpoint])
       @context.cache = @path_cache
       @context[:fs] = self
 

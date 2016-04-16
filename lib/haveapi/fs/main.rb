@@ -62,7 +62,8 @@ module HaveAPI::Fs
   end
 
   def self.main
-    options = %i(api version auth_method user password token nodaemonize log)
+    options = %i(api version auth_method user password token nodaemonize log
+                index_limit)
     usage = <<END
         version=VERSION        API version to use
         auth_method=METHOD     Authentication method (basic, token, noauth)
@@ -71,6 +72,7 @@ module HaveAPI::Fs
         token                  Authentication token
         nodaemonize            Stay in the foreground
         log                    Enable logging while daemonized
+        index_limit=LIMIT      Limit number of objects in resource directory
 END
 
     FuseFS.main(ARGV, options, usage, 'api_url') do |opts|

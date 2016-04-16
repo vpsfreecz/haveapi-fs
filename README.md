@@ -32,6 +32,7 @@ Debian:
         token                  Authentication token
         nodaemonize            Stay in the foreground
         log                    Enable logging while daemonized
+        index_limit=LIMIT      Limit number of objects in resource directory
 
 ## `/etc/fstab` entry
 
@@ -228,6 +229,12 @@ was created in memory, i.e. for some components that is when they were fetched
 from the API. As of now, components with creation time older than 30 minutes
 are regularly freed from memory to ensure that the files and data you see are
 still actually in the API, or have not been modified.
+
+## Limiting number of fetched objects
+By default, resource dir contains all its objects. For some APIs, it may be
+undesirable, as they may contain too many objects and it is useless and slot to
+fetch them all. For this reason, there is option `index_limit`, e.g.
+`index_limit=2000` to fetch 2000 objects from every resource at most.
 
 ## Troubleshooting
 Whenever `haveapi-fs` crashes, throws IO errors or misbehaves, helpful

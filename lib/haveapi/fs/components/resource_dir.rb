@@ -112,6 +112,10 @@ module HaveAPI::Fs::Components
     end
 
     def load_contents
+      if context.opts[:index_limit] && limit = @index.find(:input).find(:limit)
+        limit.write(context.opts[:index_limit])
+      end
+
       @index.exec(meta: meta_params)
       new_data = @index.output.data
 
