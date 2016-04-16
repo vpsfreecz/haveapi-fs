@@ -112,8 +112,16 @@ module HaveAPI::Fs::Components
     end
 
     def load_contents
-      if context.opts[:index_limit] && limit = @index.find(:input).find(:limit)
-        limit.write(context.opts[:index_limit])
+      if context.opts[:index_limit] && file = @index.find(:input).find(:limit)
+        limit = context.opts[:index_limit].to_i
+        v = file.value
+        param = @index.action.input_params[:limit]
+
+        if (!v && !param[:default]) \
+            || (v && v > limit) \
+            || (param[:default] && param[:default] > limit)
+          file.write_safe(limit)
+        end
       end
 
       @index.exec(meta: meta_params)
