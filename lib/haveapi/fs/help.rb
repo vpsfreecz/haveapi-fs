@@ -1,5 +1,14 @@
 module HaveAPI::Fs
   module Help
+    SEARCH_PATH = [
+        ::File.realpath(::File.join(
+            ::File.dirname(__FILE__),
+            '..', '..', '..',
+            'templates',
+            'help',
+        ))
+    ]
+
     module ClassMethods
       def help_file(name = nil)
         if name
@@ -44,9 +53,21 @@ module HaveAPI::Fs
       end
     end
 
-    def self.included(klass)
-      klass.send(:extend, ClassMethods)
-      klass.send(:include, InstanceMethods)
+    class << self
+      def included(klass)
+        klass.send(:extend, ClassMethods)
+        klass.send(:include, InstanceMethods)
+      end
+      
+      def find!(name)
+        SEARCH_PATH.each do |s|
+          path = ::File.join(s, name)
+
+          return path if ::File.exists?(path)
+        end
+
+        raise Errno::ENOENT, "help file '#{name}' not found"
+      end
     end
   end
 end

@@ -3,7 +3,7 @@ module HaveAPI::Fs::Components
     def initialize(*args)
       super
 
-      @layout = ERB.new(::File.open(::File.join(template_dir, 'layout.erb')).read, 0, '-')
+      @layout = ERB.new(::File.open(template_path('layout')).read, 0, '-')
       @template = ERB.new(
           ::File.open(template_path(@c.class)).read,
           0, '-'

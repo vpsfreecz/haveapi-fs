@@ -10,23 +10,15 @@ module HaveAPI::Fs::Components
     end
 
     protected
-    def template_dir
-      ::File.realpath(::File.join(
-          ::File.dirname(__FILE__),
-          '..', '..', '..', '..',
-          'templates',
-          'help',
-          @format.to_s,
-      )) 
-    end
-
     def template_path(klass)
-      name = klass.help_file ? klass.help_file.to_s : klass.name.split('::').last.underscore
+      if klass.is_a?(::String)
+        name = klass
+        
+      else
+        name = klass.help_file ? klass.help_file.to_s : klass.name.split('::').last.underscore
+      end
 
-      ::File.join(
-          template_dir,
-          name + ".erb",
-      )
+      HaveAPI::Fs::Help.find!(::File.join(@format.to_s, name + ".erb"))
     end
 
     def layout(layout_erb)
