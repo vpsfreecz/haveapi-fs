@@ -1,8 +1,10 @@
 HaveAPI Filesystem
 ==================
-`haveapi-fs` is a virtual read-write filesystem created using FUSE. It works
+`haveapi-fs` is a virtual read-write file system created using FUSE. It works
 with any API based on [HaveAPI](https://github.com/vpsfreecz/haveapi) and
-allows it to be browsed and interacted with as directories and files.
+allows it to be browsed and interacted with as directories and files. The file
+system can be easily extended to add custom directories/files or modify
+behaviour for your API's needs.
 
 ## Requirements
 FUSE has to be enabled in kernel and userspace utilities installed, e.g. on
@@ -235,6 +237,74 @@ By default, resource dir contains all its objects. For some APIs, it may be
 undesirable, as they may contain too many objects and it is useless and slot to
 fetch them all. For this reason, there is option `index_limit`, e.g.
 `index_limit=2000` to fetch 2000 objects from every resource at most.
+
+## Extending the file system
+Internally, every directory and file is represented by a `Component` object.
+Components are arranged in a tree structure, where directories are branches and
+files are leaves. Any component can be modified or replaced.
+
+The following example demonstrates how to add a custom file to existing
+component.
+
+```ruby
+#!/usr/bin/env ruby
+require 'haveapi/fs'
+
+module CustomComponents
+  # Extends ResourceInstanceDir and adds file `extended.txt`
+  class InstanceDir < HaveAPI::Fs::Components::ResourceInstanceDir
+    # If not specified, class name is used as a help file name
+    help_file :resource_instance_dir
+
+    # This method returns directory contents. Return entries from the superclass
+    # and add our own file.
+    def contents
+      super + %w(extended.txt)
+    end
+
+    protected
+    # `new_child` is called whenever a path in the file system is accessed for
+    # the first time. It returns the class and arguments that will represent
+    # a component under `name`.
+    #
+    # First, we let the superclass to try to find the component. If it does not
+    # exist, we check whether it's our custom file.
+    def new_child(name)
+      if child = super
+        child
+
+      elsif name == :'extended.txt'
+        SomeFile
+
+      else
+        nil
+      end
+    end
+  end
+  
+  # Component representing `extended.txt`
+  class SomeFile < HaveAPI::Fs::Components::File
+    # This method returns file contents. File size is deduced from the return
+    # value and access times are managed by the file system by default, so this
+    # method is all that is needed. Default permissions make this file
+    # read-only.
+    def read
+      "you have been extended!\n"
+    end
+  end
+end
+
+# Replace ResourceInstanceDir with our InstanceDir in component factory.
+# Whenever the file system would create ResourceInstanceDir instance, it will
+# create InstanceDir instead.
+HaveAPI::Fs::Factory.replace(
+    HaveAPI::Fs::Components::ResourceInstanceDir,
+    CustomComponents::InstanceDir
+)
+
+# Mount the file system
+HaveAPI::Fs.main
+```
 
 ## Troubleshooting
 Whenever `haveapi-fs` crashes, throws IO errors or misbehaves, helpful
