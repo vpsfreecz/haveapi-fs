@@ -1,6 +1,14 @@
 require 'yaml'
 
 module HaveAPI::Fs::Components
+  # This file serves as an IPC between the file system and outer processes,
+  # mainly executables from the file system itself.
+  #
+  # It does not behave like a regular file, it's more like a local socket.
+  # The process opens the file, writes a message with a command and then reads
+  # a message with a response.
+  #
+  # Messages are formatted in YAML and separated by {MSG_DELIMITER}.
   class RemoteControlFile < File
     MSG_DELIMITER = "\nMSG_OVER\n"
 

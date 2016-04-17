@@ -1,4 +1,15 @@
 module HaveAPI::Fs::Components
+  # Base class for all executables. Executables can be executed either by
+  # writing `1` into them or by running them, as they contain a Ruby script.
+  #
+  # The Ruby script communicates with the file system using {RemoteControlFile}.
+  # In short, it tells the file system to execute a component at a certain path,
+  # which results in the same action as when `1` is written to the file.
+  #
+  # In both cases, the file system itself does the operation, the outer process
+  # only signals it to do so and then waits for a reply.
+  #
+  # When the component is to be executed, method {#exec} is called.
   class Executable < File
     def executable?
       true

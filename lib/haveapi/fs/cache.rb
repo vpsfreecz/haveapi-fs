@@ -1,6 +1,7 @@
 require 'thread'
 
 module HaveAPI::Fs
+  # A path-based cache for the component tree.
   class Cache < Worker
     attr_reader :hits, :misses, :invalid, :drops
 
@@ -17,6 +18,12 @@ module HaveAPI::Fs
       @cache.size
     end
 
+    # Find component with `path` in the cache. If the component is not in the
+    # cache yet or is in an invalid state, `block` is called and its return
+    # value is saved in the cache for this `path`.
+    #
+    # @param [String] path
+    # @yieldreturn [HaveAPI::Fs::Component]
     def get(path, &block)
       obj = @cache[path]
 
@@ -40,6 +47,8 @@ module HaveAPI::Fs
       @cache[path] = v
     end
 
+    # Drop the component at `path` and all its descendants from the cache.
+    # @param [String] path
     def drop_below(path)
       abs_path = '/' + path
       keys = @cache.keys.select { |k| k.start_with?(abs_path) }

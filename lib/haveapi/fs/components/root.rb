@@ -1,4 +1,11 @@
 module HaveAPI::Fs::Components
+  # The root of the filesystem. There is only one instance of this object.
+  #
+  # This directory contains some special hidden files:
+  #  
+  #  - `.remote_control` is used for IPC between the file system and executables
+  #  - `.cache` contains some statistics about the cache
+  #  - `.assets/` contains static files for HTML help files
   class Root < Directory
     component :root
     

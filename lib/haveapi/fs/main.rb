@@ -2,6 +2,7 @@ require 'uri'
 require 'yaml'
 
 module HaveAPI::Fs
+  # A list of accepted mount options
   OPTIONS = %i(api version auth_method user password token nodaemonize log
                 index_limit)
   USAGE = <<END
@@ -16,11 +17,18 @@ module HaveAPI::Fs
 END
 
 
+  # Every authentication provider must register using this method.
+  # @param [Symbol] name
+  # @param [Class] klass
   def self.register_auth(name, klass)
     @auth_methods ||= {}
     @auth_methods[name] = klass
   end
 
+  # Return authentication method based on mount options or return the default
+  # one.
+  # @param [Hash] opts mount options
+  # @param [Symbol] default name of the default authentication method
   def self.auth_method(opts, default)
     return @auth_methods[opts[:auth_method].to_sym] if opts[:auth_method]
 
@@ -31,6 +39,8 @@ END
     default ? @auth_methods[default] : @auth_methods.values.first
   end
 
+  # @return [Hash] if the config exists
+  # @return [nil] if the config does not exist
   def self.read_config
     config_path = "#{Dir.home}/.haveapi-client.yml"
 
@@ -42,6 +52,8 @@ END
     end
   end
 
+  # Return configuration of a particular server from the config hash.
+  # @param [String] url URL of the API server
   def self.server_config(url)
     cfg = read_config
     return nil if cfg.nil? || cfg[:servers].nil?
@@ -49,6 +61,10 @@ END
     cfg[:servers].detect { |s| s[:url] == url }
   end
 
+  # Perform a double-fork to make the process independent. Stdout and stderr
+  # are redirected either to a log file or to /dev/null.
+  #
+  # @param [Hash] opts mount options
   def self.daemonize(opts)
     home = ::File.join(Dir.home, '.haveapi-fs', URI(opts[:device]).host)
     FileUtils.mkpath(home)
@@ -75,6 +91,11 @@ END
     STDERR.reopen(f)
   end
 
+  # Create and setup an instance of HaveAPI::Client::Client based on the mount
+  # options, calls self.daemonize if not configured otherwise.
+  #
+  # @param [Hash] opts mount options
+  # @return [HaveAPI::Client::Client]
   def self.client(opts)
     cfg = server_config(opts[:device])
     client = HaveAPI::Client::Client.new(
@@ -102,6 +123,7 @@ END
     client
   end
 
+  # Calls FuseFS.main with an instance of {HaveAPI::Fs::Fs}.
   def self.main(options = OPTIONS, usage = USAGE)
     FuseFS.main(ARGV, OPTIONS, USAGE, 'api_url') do |opts|
       fail "provide argument 'api_url'" unless opts[:device]

@@ -1,4 +1,11 @@
 module HaveAPI::Fs::Components
+  # Base class for all components that act as directories.
+  #
+  # Every directory contains some special hidden files:
+  #
+  #  - `.components` contains a list of all descendant component objects that are
+  #    created in memory
+  #  - `.pry` is an executable that opens a developer console
   class Directory < HaveAPI::Fs::Component
     include HaveAPI::Fs::Help
 

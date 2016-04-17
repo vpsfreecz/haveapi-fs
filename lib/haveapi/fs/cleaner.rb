@@ -1,6 +1,11 @@
 require 'thread'
 
 module HaveAPI::Fs
+  # Cleaner is in a regular interval deleting old components from the tree.
+  #
+  # A component is declared old when either it's ctime is older than {CTIME}
+  # seconds or it's atime is older than {ATIME} seconds. Bound components are
+  # not touched.
   class Cleaner < Worker
     # Delete components not accessed in the last 10 minutes
     ATIME = 10*60

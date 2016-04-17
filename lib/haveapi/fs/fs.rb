@@ -5,6 +5,8 @@ require 'rfusefs'
 require 'haveapi/client'
 
 module HaveAPI::Fs
+  # Interface with RFuseFS API. Methods called by RFuseFS are redirected to
+  # appropriate components.
   class Fs
     CHECK_FILE = FuseFS::Fuse::Root::CHECK_FILE[1..-1].to_sym
 

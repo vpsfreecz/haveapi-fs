@@ -1,4 +1,9 @@
 module HaveAPI::Fs
+  # Every component has its own Context instance and passes it along to its
+  # children. Context is used to pass information from the root of the tree
+  # to all its branches and leaves. Using the context, every component knows
+  # all its parents and can relate to them. It also contains a reference
+  # to the global {Cache} instance.
   class Context
     attr_accessor :object_path, :file_path, :opts, :url, :mountpoint, :cache
 

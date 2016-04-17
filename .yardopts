@@ -1,0 +1,1 @@
+--files 'lib/**/*.rb' --output-dir=html_doc --markup markdown
