@@ -75,35 +75,38 @@ END
     STDERR.reopen(f)
   end
 
+  def self.client(opts)
+    cfg = server_config(opts[:device])
+    client = HaveAPI::Client::Client.new(
+        opts[:device],
+        opts[:version],
+        identity: 'haveapi-fs',
+    )
+
+    auth_klass = auth_method(opts, cfg && cfg[:last_auth])
+
+    auth = auth_klass.new(
+        (cfg && cfg[:auth][auth_klass.method_name]) || {},
+        opts,
+    )
+    auth.validate
+    auth.authenticate(client)
+
+    # Fetch API description, must be done especially after authentication
+    client.setup
+
+    # Verify that authentication works
+    auth.check(client)
+
+    daemonize(opts) unless opts[:nodaemonize]
+    client
+  end
+
   def self.main(options = OPTIONS, usage = USAGE)
     FuseFS.main(ARGV, OPTIONS, USAGE, 'api_url') do |opts|
       fail "provide argument 'api_url'" unless opts[:device]
 
-      cfg = server_config(opts[:device])
-      client = HaveAPI::Client::Client.new(
-          opts[:device],
-          opts[:version],
-          identity: 'haveapi-fs',
-      )
-
-      auth_klass = auth_method(opts, cfg && cfg[:last_auth])
-
-      auth = auth_klass.new(
-          (cfg && cfg[:auth][auth_klass.method_name]) || {},
-          opts,
-      )
-      auth.validate
-      auth.authenticate(client)
-
-      # Fetch API description, must be done especially after authentication
-      client.setup
-
-      # Verify that authentication works
-      auth.check(client)
-
-      daemonize(opts) unless opts[:nodaemonize]
-
-      HaveAPI::Fs.new(client, opts)
+      HaveAPI::Fs.new(client(opts), opts)
     end
   end
 end
