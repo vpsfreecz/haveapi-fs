@@ -22,6 +22,10 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
+      if child = super
+        return child
+      end
+
       real_name = name.to_s
       return unless contents.include?(real_name)
       
