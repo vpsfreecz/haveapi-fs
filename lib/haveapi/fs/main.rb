@@ -2,6 +2,20 @@ require 'uri'
 require 'yaml'
 
 module HaveAPI::Fs
+  OPTIONS = %i(api version auth_method user password token nodaemonize log
+                index_limit)
+  USAGE = <<END
+    version=VERSION        API version to use
+    auth_method=METHOD     Authentication method (basic, token, noauth)
+    user                   Username
+    password               Password
+    token                  Authentication token
+    nodaemonize            Stay in the foreground
+    log                    Enable logging while daemonized
+    index_limit=LIMIT      Limit number of objects in resource directory
+END
+
+
   def self.register_auth(name, klass)
     @auth_methods ||= {}
     @auth_methods[name] = klass
@@ -61,21 +75,8 @@ module HaveAPI::Fs
     STDERR.reopen(f)
   end
 
-  def self.main
-    options = %i(api version auth_method user password token nodaemonize log
-                index_limit)
-    usage = <<END
-        version=VERSION        API version to use
-        auth_method=METHOD     Authentication method (basic, token, noauth)
-        user                   Username
-        password               Password
-        token                  Authentication token
-        nodaemonize            Stay in the foreground
-        log                    Enable logging while daemonized
-        index_limit=LIMIT      Limit number of objects in resource directory
-END
-
-    FuseFS.main(ARGV, options, usage, 'api_url') do |opts|
+  def self.main(options = OPTIONS, usage = USAGE)
+    FuseFS.main(ARGV, OPTIONS, USAGE, 'api_url') do |opts|
       fail "provide argument 'api_url'" unless opts[:device]
 
       cfg = server_config(opts[:device])
