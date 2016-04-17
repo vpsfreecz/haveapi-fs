@@ -243,7 +243,7 @@ Internally, every directory and file is represented by a `Component` object.
 Components are arranged in a tree structure, where directories are branches and
 files are leaves. Any component can be modified or replaced.
 
-The following example demonstrates how to add a custom file to existing
+The following example demonstrates how to add a custom file to an existing
 component.
 
 ```ruby
