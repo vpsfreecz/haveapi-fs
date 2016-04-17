@@ -8,6 +8,7 @@ module HaveAPI
   end
 end
 
+require_relative '../core_ext/string'
 require_relative 'fs/main'
 require_relative 'fs/fs'
 require_relative 'fs/context'
@@ -15,6 +16,7 @@ require_relative 'fs/worker'
 require_relative 'fs/cleaner'
 require_relative 'fs/cache'
 require_relative 'fs/component'
+require_relative 'fs/factory'
 require_relative 'fs/help'
 require_relative 'fs/remote_control'
 require_relative 'fs/version'

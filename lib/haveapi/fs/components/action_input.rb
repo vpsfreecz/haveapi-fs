@@ -1,5 +1,6 @@
 module HaveAPI::Fs::Components
   class ActionInput < Directory
+    component :action_input
     attr_reader :action_dir
 
     def initialize(action_dir, *args)
@@ -29,7 +30,7 @@ module HaveAPI::Fs::Components
         child
 
       elsif @action_dir.action.input_params.has_key?(name)
-        Parameter.new(@action_dir.action, name, :input)
+        [Parameter, @action_dir.action, name, :input]
 
       else
         nil

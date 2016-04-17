@@ -1,5 +1,7 @@
 module HaveAPI::Fs::Components
   class Root < Directory
+    component :root
+    
     def initialize()
       super()
     end
@@ -28,33 +30,34 @@ module HaveAPI::Fs::Components
         child
       
       elsif @api.resources.has_key?(name)
-        ResourceDir.new(@api.resources[name])
+        [ResourceDir, @api.resources[name]]
 
       else
         case name
         when :'.remote_control'
-          RemoteControlFile.new
+          RemoteControlFile
 
         when :'.assets'
-          MetaDir.new(
+          [
+              MetaDir, 
               ::File.join(
                   ::File.realpath(::File.dirname(__FILE__)),
                   '..', '..', '..', '..',
                   'assets'
-              )
-          )
+              ),
+          ]
 
         when :'.client_version'
-          ClientVersion.new
+          ClientVersion
 
         when :'.fs_version'
-          FsVersion.new
+          FsVersion
 
         when :'.protocol_version'
-          ProtocolVersion.new
+          ProtocolVersion
 
         when :'.cache'
-          CacheStats.new
+          CacheStats
 
         else
           nil

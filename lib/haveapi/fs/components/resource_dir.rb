@@ -1,5 +1,6 @@
 module HaveAPI::Fs::Components
   class ResourceDir < Directory
+    component :resource_dir
     attr_reader :resource
 
     def initialize(resource)
@@ -47,24 +48,24 @@ module HaveAPI::Fs::Components
         child
       
       elsif name == :actions
-        ResourceActionDir.new(@resource)
+        [ResourceActionDir, @resource]
 
       elsif subresources.include?(name)
-        ResourceDir.new(@resource.send(name))
+        [ResourceDir, @resource.send(name)]
 
       elsif /^\d+$/ =~ name
         id = name.to_s.to_i
 
         if @data
           r = @data.detect { |v| v.id == id }
-          ResourceInstanceDir.new(r) if r
+          [ResourceInstanceDir, r] if r
 
         else
           # The directory contents have not been loaded yet. We don't necessarily
           # need to load it all, a single query should be sufficient.
           begin
             obj = @resource.show(id, meta: meta_params)
-            ResourceInstanceDir.new(obj)
+            [ResourceInstanceDir, obj]
 
           rescue HaveAPI::Client::ActionFailed
             # Not found
@@ -72,13 +73,13 @@ module HaveAPI::Fs::Components
         end
 
       elsif name == :'create.yml' && create_dir = use(:actions, :create)
-        InstanceCreate.new(create_dir)
+        [InstanceCreate, create_dir]
       
       elsif @index && name.to_s.start_with?('by-')
         by_param = name.to_s[3..-1].to_sym
         return nil unless @index.action.input_params.has_key?(by_param)
 
-        IndexFilter.new(self, by_param)
+        [IndexFilter, self, by_param]
 
       else
         nil

@@ -16,13 +16,11 @@ module HaveAPI::Fs
 
       def []=(k, v)
         if @store.has_key?(k)
-          v.invalidate
-          v.context.cache.drop_below(v.path)
+          @store[k].invalidate
+          @store[k].context.cache.drop_below(v.path)
         end
 
-        v.context = context.clone
-        v.context.last.send(:setup_child, k, v)
-        @store[k] = v     
+        @store[k] = Factory.create(@context, k, *v)
       end
 
       def set(k, v)
@@ -60,6 +58,19 @@ module HaveAPI::Fs
           define_method(arg) { children[arg] }
         end
       end
+
+      def component(name = nil)
+        if name
+          @component = name
+
+        else
+          @component
+        end
+      end
+
+      def inherited(subclass)
+        subclass.component(@component)
+      end
     end
 
     attr_accessor :context, :atime, :mtime, :ctime
@@ -76,7 +87,8 @@ module HaveAPI::Fs
     def find(name)
       return @children[name] if @children.has_key?(name)
       c = new_child(name)
-      @children.set(name, setup_child(name, c)) if c
+
+      @children.set(name, Factory.create(context, name, *c)) if c
     end
 
     def use(*names)
@@ -180,14 +192,6 @@ module HaveAPI::Fs
       raise NotImplementedError
     end
 
-    def setup_child(name, c)
-      c.context = context.clone
-      c.context[ underscore(c.class.name.split('::').last).to_sym ] = c
-      c.context.file_path << name.to_s
-      c.setup
-      c
-    end
-
     def drop_children
       @children.clear
       context.cache.drop_below(path)
@@ -195,14 +199,6 @@ module HaveAPI::Fs
 
     def changed
       self.mtime = Time.now
-    end
-
-    def underscore(str)
-      str.gsub(/::/, '/').
-        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-        gsub(/([a-z\d])([A-Z])/,'\1_\2').
-        tr("-", "_").
-        downcase
     end
   end
 end

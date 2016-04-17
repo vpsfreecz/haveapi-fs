@@ -30,13 +30,13 @@ module HaveAPI::Fs
 
         case format
         when :html
-          Components::HtmlHelpFile.new(self, format)
+          [Components::HtmlHelpFile, self, format]
 
         when :txt, :md
-          Components::MdHelpFile.new(self, :md)
+          [Components::MdHelpFile, self, :md]
 
         when :man
-          Components::GroffHelpFile.new(self, :md)
+          [Components::GroffHelpFile, self, :md]
 
         else
           return nil

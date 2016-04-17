@@ -1,5 +1,7 @@
 module HaveAPI::Fs::Components
   class ListItem < Directory
+    component :list_item
+    
     def initialize(action, dir, data)
       super()
 
@@ -14,12 +16,13 @@ module HaveAPI::Fs::Components
 
     protected
     def new_child(name)
-      Parameter.new(
+      [
+          Parameter,
           @action,
           name,
           @dir,
-          @data
-      )
+          @data,
+      ]
     end
   end
 end

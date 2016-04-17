@@ -23,9 +23,9 @@ module HaveAPI::Fs
       @context.cache = @path_cache
       @context[:fs] = self
 
-      @root = Components::Root.new
-      @root.context = @context.clone
-      @root.context[:root] = @root
+      @root = Factory.create(@context, nil, Components::Root)
+#      @root.context = @context.clone
+#      @root.context[:root] = @root
       @root.setup
 
       Thread.abort_on_exception = true

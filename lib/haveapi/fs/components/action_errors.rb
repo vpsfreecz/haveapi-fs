@@ -1,5 +1,7 @@
 module HaveAPI::Fs::Components
   class ActionErrors < Directory
+    component :action_errors
+
     class ActionError < File
       def initialize(errors)
         @errors = errors
@@ -37,7 +39,7 @@ module HaveAPI::Fs::Components
         child
 
       elsif @errors && @errors.has_key?(name)
-        ActionError.new(@errors[name])
+        [ActionError, @errors[name]]
 
       else
         nil

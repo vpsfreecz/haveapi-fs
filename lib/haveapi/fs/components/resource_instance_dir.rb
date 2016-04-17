@@ -1,11 +1,13 @@
 module HaveAPI::Fs::Components
   class ResourceInstanceDir < ResourceDir
+    component :resource_instance_dir
+
     def setup
       super
      
       @show = use(:actions, :show)
       @update = use(:actions, :update)
-      children[:save] = SaveInstance.new(self, bound: true) if @update
+      children[:save] = [SaveInstance, self, bound: true] if @update
 
       # Disable object listing from ResourceDir.contents
       @index = false
@@ -31,14 +33,14 @@ module HaveAPI::Fs::Components
       context.cache.drop_below(path)
 
       @resource.send("#{name}_id=", id)
-      children[name] = setup_child(name, ResourceInstanceDir.new(@resource.send(name)))
+      children[name] = [ResourceInstanceDir, @resource.send(name)]
     end
 
     def update_association(name)
       children[name].invalidate
       context.cache.drop_below(path)
 
-      children[name] = setup_child(name, ResourceInstanceDir.new(@resource.send(name)))
+      children[name] = [ResourceInstanceDir, @resource.send(name)]
     end
 
     def subresources
@@ -86,17 +88,17 @@ module HaveAPI::Fs::Components
         child
       
       elsif name == :actions
-        ResourceActionDir.new(@resource)
+        [ResourceActionDir, @resource]
 
       elsif subresources.include?(name)
-        ResourceDir.new(@resource.send(name))
+        [ResourceDir, @resource.send(name)]
 
       elsif @resource.attributes.has_key?(name)
         if @show.action.params[name][:type] == 'Resource'
           instance = @resource.send(name)
 
           if instance
-            ResourceInstanceDir.new(instance)
+            [ResourceInstanceDir, instance]
 
           else
             nil
@@ -105,14 +107,15 @@ module HaveAPI::Fs::Components
         else
           editable = @update.nil? ? false : @update.action.input_params.has_key?(name)
 
-          Parameter.new(
+          [
+              Parameter,
               @resource.actions[:show],
               name,
               :output,
               @resource,
               editable: editable,
               mirror: editable && @update.find(:input).find(name),
-          )
+          ]
         end
 
       elsif name.to_s.end_with?('_id')
@@ -121,7 +124,8 @@ module HaveAPI::Fs::Components
 
         editable = @update.nil? ? false : @update.action.input_params.has_key?(real_name)
 
-        ResourceId.new(
+        [
+            ResourceId,
             self,
             @resource.actions[:show],
             real_name,
@@ -129,10 +133,10 @@ module HaveAPI::Fs::Components
             @resource,
             editable: editable,
             mirror: editable && @update.find(:input).find(real_name),
-        )
+        ]
 
       elsif name == :'edit.yml' && @update
-        InstanceEdit.new(@update)
+        [InstanceEdit, @update]
 
       else
         nil

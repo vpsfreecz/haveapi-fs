@@ -28,10 +28,10 @@ module HaveAPI::Fs::Components
       path = ::File.join(@dir.path, real_name)
 
       if ::File.directory?(path)
-        MetaDir.new(path)
+        [MetaDir, path]
 
       else
-        MetaFile.new(path)
+        [MetaFile, path]
       end
     end
   end

@@ -21,11 +21,11 @@ module HaveAPI::Fs::Components
     end
 
     def template_path(klass)
-      name = klass.help_file ? klass.help_file.to_s : underscore(klass.name.split('::').last)
+      name = klass.help_file ? klass.help_file.to_s : klass.name.split('::').last.underscore
 
       ::File.join(
           template_dir,
-          underscore(name) + ".erb",
+          name + ".erb",
       )
     end
 

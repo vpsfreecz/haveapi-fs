@@ -1,5 +1,6 @@
 module HaveAPI::Fs::Components
   class ActionOutput < Directory
+    component :action_output
     attr_reader :action_dir
     attr_accessor :data
 
@@ -54,23 +55,24 @@ module HaveAPI::Fs::Components
         
         if @data.is_a?(HaveAPI::Client::ResourceInstanceList)
           param = @data.detect { |v| v.id == id }
-          ResourceInstanceDir.new(param)
+          [ResourceInstanceDir, param]
 
         else
           param = @data.response.detect { |v| v[:id] == id }
-          ListItem.new(@action_dir.action, :output, param)
+          [ListItem, @action_dir.action, :output, param]
         end
 
       elsif @action_dir.action.params.has_key?(name)
-        Parameter.new(
+        [
+            Parameter,
             @action_dir.action,
             name,
             :output,
             @data.is_a?(HaveAPI::Client::ResourceInstance) ? @data : @data.response,
-        )
+        ]
 
       else
-        bil
+        nil
       end
     end
   end

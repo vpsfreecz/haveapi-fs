@@ -1,14 +1,14 @@
 module HaveAPI::Fs::Components
   class IndexFilter < Directory
-    attr_reader :resource_dir, :param
-    attr_accessor :filters
+    component :index_filter
+    attr_reader :resource_dir, :param, :filters
 
-    def initialize(resource_dir, param)
+    def initialize(resource_dir, param, filters = {})
       super()
 
       @resource_dir = resource_dir
       @param = param
-      @filters = {}
+      @filters = filters
     end
 
     def title
@@ -21,13 +21,15 @@ module HaveAPI::Fs::Components
         child
       
       else
-        @filters[ @param ] = value.to_s
-        IndexFilterValue.new(@resource_dir.resource, @filters.clone)
+        f = @filters.clone
+        f[ @param ] = value.to_s
+        [IndexFilterValue, @resource_dir.resource, f]
       end
     end
   end
 
   class IndexFilterValue < ResourceDir
+    component :resource_dir
     help_file :resource_dir
 
     def initialize(resource, filters)
@@ -38,7 +40,7 @@ module HaveAPI::Fs::Components
 
     def setup
       super
-      
+
       @filters.each do |k, v|
         @index.find(:input).find(k).write(v)
         @last = v
@@ -54,7 +56,7 @@ module HaveAPI::Fs::Components
       child = super(name)
       return child unless child
 
-      child.filters = @filters if child.is_a?(IndexFilter)
+      child << @filters.clone if [child].flatten.first == IndexFilter
       child
     end
   end

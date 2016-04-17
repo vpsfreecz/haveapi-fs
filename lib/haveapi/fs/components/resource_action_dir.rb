@@ -1,5 +1,6 @@
 module HaveAPI::Fs::Components
   class ResourceActionDir < Directory
+    component :resource_action_dir
     attr_reader :resource
 
     def initialize(r)
@@ -61,7 +62,7 @@ module HaveAPI::Fs::Components
           ActionDir
         end
         
-        klass.new(@resource, @resource.actions[name])
+        [klass, @resource, @resource.actions[name]]
 
       else
         nil

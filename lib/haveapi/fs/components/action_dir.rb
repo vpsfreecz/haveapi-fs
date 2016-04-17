@@ -1,5 +1,6 @@
 module HaveAPI::Fs::Components
   class ActionDir < Directory
+    component :action_dir
     attr_reader :resource, :action
     children_reader :status, :input, :output
 
@@ -13,13 +14,13 @@ module HaveAPI::Fs::Components
     def setup
       super
 
-      children[:status] = ActionStatus.new(self, bound: true)
-      children[:message] = ActionMessage.new(self, bound: true)
-      children[:errors] = ActionErrors.new(self, bound: true)
-      children[:input] = ActionInput.new(self, bound: true)
-      children[:output] = ActionOutput.new(self, bound: true)
-      children[:exec] = ActionExec.new(self, bound: true)
-      children[:reset] = DirectoryReset.new(bound: true)
+      children[:status] = [ActionStatus, self, bound: true]
+      children[:message] = [ActionMessage, self, bound: true]
+      children[:errors] = [ActionErrors, self, bound: true]
+      children[:input] = [ActionInput, self, bound: true]
+      children[:output] = [ActionOutput, self, bound: true]
+      children[:exec] = [ActionExec, self, bound: true]
+      children[:reset] = [DirectoryReset, bound: true]
     end
 
     def contents
@@ -95,7 +96,7 @@ module HaveAPI::Fs::Components
         child
 
       elsif name == :'exec.yml' && @action.input_params.any?
-        ActionExecEdit.new(self)
+        [ActionExecEdit, self]
 
       else
         nil

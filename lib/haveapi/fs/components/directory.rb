@@ -16,19 +16,19 @@ module HaveAPI::Fs::Components
 
       case name
       when HaveAPI::Fs::Fs::CHECK_FILE
-        RFuseCheck.new
+        RFuseCheck
 
       when :'.reset'
-        DirectoryReset.new
+        DirectoryReset
 
       when :'.unsaved'
-        UnsavedList.new
+        UnsavedList
 
       when :'.components'
-        ComponentList.new
+        ComponentList
 
       when :'.pry'
-        HaveAPI::Fs::Components::Pry.new
+        HaveAPI::Fs::Components::Pry
 
       else
         nil
