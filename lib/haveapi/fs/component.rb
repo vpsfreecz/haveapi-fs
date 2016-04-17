@@ -28,7 +28,7 @@ module HaveAPI::Fs
       def []=(k, v)
         if @store.has_key?(k)
           @store[k].invalidate
-          @store[k].context.cache.drop_below(v.path)
+          @store[k].context.cache.drop_below(@store[k].path)
         end
 
         @store[k] = Factory.create(@context, k, *v)
