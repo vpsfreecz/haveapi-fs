@@ -38,28 +38,10 @@ module HaveAPI::Fs
         @store[k] = v
       end
 
-      def has_key?(k)
-        @store.has_key?(k)
-      end
-
-      def clear
-        @store.clear
-      end
-
-      def each(&block)
-        @store.each(&block)
-      end
-
-      def select(&block)
-        @store.select(&block)
-      end
-
-      def detect(&block)
-        @store.detect(&block)
-      end
-
-      def delete_if(&block)
-        @store.delete_if(&block)
+      %i(has_key? clear each select detect delete_if).each do |m|
+        define_method(m) do |*args, &block|
+          @store.send(m, *args, &block)
+        end
       end
     end
 
