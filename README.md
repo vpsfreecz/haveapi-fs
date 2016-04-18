@@ -68,7 +68,7 @@ supplied as options using `-o`.
 
 The root directory contains a list of top-level resources in the API
 represented by directories. `help.{html,man,md,txt}` files are to be found in
-every directory in this filesystem and contain information about the current
+every directory in this file system and contain information about the current
 directory.
 
     $ cd /mnt/api.vpsfree.cz
@@ -153,7 +153,7 @@ subresources. Associated resources can be browsed as directories.
     ├── help.txt
     └── save
 
-Now let's look at action directory:
+Now let's look at the action directory:
 
     $ tree -L 1 vps/199/actions/update/
     vps/199/actions/update/
@@ -234,7 +234,7 @@ still actually in the API, or have not been modified.
 
 ## Limiting number of fetched objects
 By default, resource dir contains all its objects. For some APIs, it may be
-undesirable, as they may contain too many objects and it is useless and slot to
+undesirable, as they may contain too many objects and it is useless and slow to
 fetch them all. For this reason, there is option `index_limit`, e.g.
 `index_limit=2000` to fetch 2000 objects from every resource at most.
 
