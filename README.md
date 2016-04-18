@@ -306,6 +306,18 @@ HaveAPI::Fs::Factory.replace(
 HaveAPI::Fs.main
 ```
 
+## API requirements
+For the file system to work correctly, the API has comply with the following
+requirements:
+
+ - `Index` and `Show` actions must return parameter `id`
+ - `Update` action should return the same parameters as `Show`
+ - If the API uses authentication, it has to have resource `User` and action
+   `User.current` that is like a `Show` for the current user, not knowing his
+   `id` yet
+ - `Index` input parameter `limit` has the meaning from
+   `HaveAPI::Actions::Paginable`
+
 ## Troubleshooting
 Whenever `haveapi-fs` crashes, throws IO errors or misbehaves, helpful
 information can be found in the log file. Logging is disabled by default when
