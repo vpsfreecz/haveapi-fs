@@ -329,3 +329,7 @@ to standard output.
 
 Whenever reporting an error, send also contents of the log file or search it
 for a relevant backtrace.
+
+## Known issues
+ - For some unknown reason, `man` refuses to open `help.man` files. The
+   workaround is to open it indirectly, such as `cat help.man | man -l -`.
