@@ -331,5 +331,8 @@ Whenever reporting an error, send also contents of the log file or search it
 for a relevant backtrace.
 
 ## Known issues
- - For some unknown reason, `man` refuses to open `help.man` files. The
-   workaround is to open it indirectly, such as `cat help.man | man -l -`.
+ - On some distributions, `man` cannot directly open `help.man` files, because
+   it uses suid bit to run as another user. Other users by default cannot
+   access this file system. This can be changed in `/etc/fuse.conf` and then by
+   using mount option `allow_other`. A workaround is to open the manual
+   indirectly, e.g. `cat help.man | man -l -`
