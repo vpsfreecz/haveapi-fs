@@ -6,7 +6,7 @@ require 'haveapi/fs/version'
 Gem::Specification.new do |spec|
   spec.name          = 'haveapi-fs'
   spec.version       = HaveAPI::Fs::VERSION
-  spec.date          = '2016-04-11'
+  spec.date          = '2016-04-18'
   spec.authors       = ['Jakub Skokan']
   spec.email         = ['jakub.skokan@vpsfree.cz']
   spec.summary       =
