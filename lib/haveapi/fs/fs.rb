@@ -1,5 +1,3 @@
-$:.insert(0, '/home/aither/workspace/vpsfree.cz/dev1.orion/haveapi-client/lib')
-
 require 'thread'
 require 'rfusefs'
 require 'haveapi/client'
