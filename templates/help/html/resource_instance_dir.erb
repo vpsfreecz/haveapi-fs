@@ -58,7 +58,7 @@ and subresources. Associated resources are represented by a directory.
     <% @c.subresources.each do |name| %>
         <tr>
             <th><a href="<%= name %>/help.html"><%= name %></a></th>
-            <td><%= @c.resource.resources[name].description[:description] %></td>
+            <td><%= @c.resource.resources[name]._description[:description] %></td>
         </tr>
     <% end -%>
 </table>

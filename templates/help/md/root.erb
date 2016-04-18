@@ -30,5 +30,5 @@ RESOURCES
 ---------
 <% @c.resources.each do |name, r| %>
 *<%= safe_print(name) %>*
-  <%= r.description[:description] %>
+  <%= r._description[:description] %>
 <% end -%>

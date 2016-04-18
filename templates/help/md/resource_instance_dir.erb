@@ -38,5 +38,5 @@ SUBRESOURCES
 ------------
 <% @c.subresources.each do |name| %>
 *<%= safe_print(name) %>*
-  <%= @c.resource.resources[name].description[:description] %>
+  <%= @c.resource.resources[name]._description[:description] %>
 <% end -%>
