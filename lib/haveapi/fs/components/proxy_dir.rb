@@ -1,5 +1,5 @@
 module HaveAPI::Fs::Components
-  class MetaDir < Directory
+  class ProxyDir < Directory
     def initialize(path)
       super()
       @path = path
@@ -32,10 +32,10 @@ module HaveAPI::Fs::Components
       path = ::File.join(@dir.path, real_name)
 
       if ::File.directory?(path)
-        [MetaDir, path]
+        [ProxyDir, path]
 
       else
-        [MetaFile, path]
+        [ProxyFile, path]
       end
     end
   end

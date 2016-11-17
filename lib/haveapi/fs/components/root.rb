@@ -46,7 +46,7 @@ module HaveAPI::Fs::Components
 
         when :'.assets'
           [
-              MetaDir, 
+              ProxyDir, 
               ::File.join(
                   ::File.realpath(::File.dirname(__FILE__)),
                   '..', '..', '..', '..',

@@ -1,5 +1,5 @@
 module HaveAPI::Fs::Components
-  class MetaFile < File
+  class ProxyFile < File
     def initialize(path)
       super()
       @path = path

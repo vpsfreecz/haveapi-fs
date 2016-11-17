@@ -1,4 +1,5 @@
 - Option `block` enables action blocking mode
+- Rename MetaDir and MetaFile to ProxyDir and ProxyFile
 
 * Mon Apr 18 2016 - version 0.1.0
 - Initial release
