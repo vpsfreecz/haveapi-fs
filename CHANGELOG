@@ -2,6 +2,7 @@
 - Rename MetaDir and MetaFile to ProxyDir and ProxyFile
 - Add metadata input/output parameters
 - Fix typo in handling of boolean input parameters
+- Show and parse custom parameters as JSON
 
 * Mon Apr 18 2016 - version 0.1.0
 - Initial release

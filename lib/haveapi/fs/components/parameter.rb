@@ -1,4 +1,5 @@
 require 'time'
+require 'json'
 
 module HaveAPI::Fs::Components
   class Parameter < File
@@ -76,6 +77,9 @@ module HaveAPI::Fs::Components
       when 'Datetime'
         Time.iso8601(str)
 
+      when 'Custom'
+        JSON.parse(str)
+
       else
         str.strip
       end
@@ -123,6 +127,9 @@ module HaveAPI::Fs::Components
 
         when 'Datetime'
           v.is_a?(::Time) ? v.iso8601 : v
+
+        when 'Custom'
+          JSON.generate(v)
 
         else
           v
