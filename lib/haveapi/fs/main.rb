@@ -3,8 +3,8 @@ require 'yaml'
 
 module HaveAPI::Fs
   # A list of accepted mount options
-  OPTIONS = %i(api version auth_method user password token nodaemonize log
-                index_limit)
+  OPTIONS = %i(api version auth_method user password token nodaemonize block
+               log index_limit)
   USAGE = <<END
     version=VERSION        API version to use
     auth_method=METHOD     Authentication method (basic, token, noauth)
@@ -12,6 +12,7 @@ module HaveAPI::Fs
     password               Password
     token                  Authentication token
     nodaemonize            Stay in the foreground
+    block                  Wait until blocking actions are finished
     log                    Enable logging while daemonized
     index_limit=LIMIT      Limit number of objects in resource directory
 END
@@ -100,8 +101,9 @@ END
     cfg = server_config(opts[:device])
     client = HaveAPI::Client::Client.new(
         opts[:device],
-        opts[:version],
+        version: opts[:version],
         identity: 'haveapi-fs',
+        block: opts[:block] || false,
     )
 
     auth_klass = auth_method(opts, cfg && cfg[:last_auth])

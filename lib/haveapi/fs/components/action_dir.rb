@@ -66,6 +66,8 @@ module HaveAPI::Fs::Components
 
         children[:output].data = res
 
+        ret.wait_for_completion if @context.opts[:block] && @action.blocking?
+
       else
         children[:message].set(ret.message)
         children[:errors].set(ret.errors)
