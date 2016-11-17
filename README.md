@@ -33,6 +33,7 @@ Debian:
         password               Password
         token                  Authentication token
         nodaemonize            Stay in the foreground
+        block                  Wait until blocking actions are finished
         log                    Enable logging while daemonized
         index_limit=LIMIT      Limit number of objects in resource directory
 
