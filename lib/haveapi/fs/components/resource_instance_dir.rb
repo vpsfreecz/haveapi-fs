@@ -17,6 +17,7 @@ module HaveAPI::Fs::Components
       ret = super - %w(create.yml)
       ret.concat(attributes)
       ret.concat(%w(save edit.yml)) if @update
+      ret << 'meta'
       ret
     end
 
@@ -137,6 +138,9 @@ module HaveAPI::Fs::Components
 
       elsif name == :'edit.yml' && @update
         [InstanceEdit, @update]
+
+      elsif name == :meta
+        [MetaOutput, @show, :object, @resource.instance_variable_get('@meta')]
 
       else
         nil

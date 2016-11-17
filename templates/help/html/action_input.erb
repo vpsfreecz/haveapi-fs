@@ -14,7 +14,7 @@ possible to send only a subset of input parameters.
         <th>Default value</th>
         <th>Description</th>
     </tr>
-    <% @c.action_dir.action.input_params.each do |name, desc| %>
+    <% @c.parameters.each do |name, desc| %>
         <tr>
             <td><%= name %></td>
             <td><%= desc[:label] %></td>

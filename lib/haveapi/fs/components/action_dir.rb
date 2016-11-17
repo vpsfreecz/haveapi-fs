@@ -19,23 +19,27 @@ module HaveAPI::Fs::Components
       children[:errors] = [ActionErrors, self, bound: true]
       children[:input] = [ActionInput, self, bound: true]
       children[:output] = [ActionOutput, self, bound: true]
+      children[:meta] = [ActionMeta, self, bound: true]
       children[:exec] = [ActionExec, self, bound: true]
       children[:reset] = [DirectoryReset, bound: true]
     end
 
     def contents
-      ret = super + %w(input output status message errors exec reset)
+      ret = super + %w(input output status message meta errors exec reset)
       ret << 'exec.yml' if @action.input_params.any?
       ret
     end
 
     def exec(meta: {})
       @action.provide_args(*@resource.prepared_args)
+
+      params = children[:input].values
+      params[:meta] = meta
+      params[:meta].update(children[:meta].values)
+
       ret = HaveAPI::Client::Response.new(
           @action,
-          @action.execute(
-              children[:input].values.update({meta: meta})
-          )
+          @action.execute(params)
       )
 
       children[:status].set(ret.ok?)
@@ -65,6 +69,7 @@ module HaveAPI::Fs::Components
         end
 
         children[:output].data = res
+        children[:meta].output = ret.meta
 
         ret.wait_for_completion if @context.opts[:block] && @action.blocking?
 

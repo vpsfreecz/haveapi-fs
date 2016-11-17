@@ -62,7 +62,7 @@ module HaveAPI::Fs::Components
           [ListItem, @action_dir.action, :output, param]
         end
 
-      elsif @action_dir.action.params.has_key?(name)
+      elsif parameters.has_key?(name)
         [
             Parameter,
             @action_dir.action,

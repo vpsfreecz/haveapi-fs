@@ -13,12 +13,22 @@ module HaveAPI::Fs::Components
       @value = value
       @set = false
       @mirror = opts[:mirror]
-      
-      if dir == :input
-        @params = @action.input_params
+     
+      if opts[:meta]
+        if dir == :input
+          @params = @action.instance_variable_get('@spec')[:meta][opts[:meta]][:input][:parameters]
+
+        else
+          @params = @action.instance_variable_get('@spec')[:meta][opts[:meta]][:output][:parameters]
+        end
 
       else
-        @params = @action.params
+        if dir == :input
+          @params = @action.input_params
+
+        else
+          @params = @action.params
+        end
       end
 
       @desc = @params[@name]
@@ -55,7 +65,7 @@ module HaveAPI::Fs::Components
         str.to_i
 
       when 'Boolean'
-        HaveAPI::Client::Parameters::Typed.Boolean.to_b(str)
+        HaveAPI::Client::Parameters::Typed::Boolean.to_b(str)
 
       when 'Integer'
         str.to_i

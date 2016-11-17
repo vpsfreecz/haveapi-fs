@@ -10,7 +10,7 @@ until the action has been executed.
         <th>Data type</th>
         <th>Description</th>
     </tr>
-    <% @c.action_dir.action.params.each do |name, desc| %>
+    <% @c.parameters.each do |name, desc| %>
         <tr>
             <td><%= name %></td>
             <td><%= desc[:label] %></td>
