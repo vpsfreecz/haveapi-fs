@@ -20,12 +20,7 @@ module HaveAPI::Fs::Components
       return ret unless @data
 
       if @list
-        if @data.is_a?(HaveAPI::Client::ResourceInstanceList)
-          ret.concat(@data.map { |v| v.id.to_s })
-
-        else
-          ret.concat(@data.response.map { |v| v[:id].to_s })
-        end
+        ret.concat(@data.map { |v| v.id.to_s })
 
       else
         ret.concat(parameters.keys.map(&:to_s))
@@ -68,7 +63,7 @@ module HaveAPI::Fs::Components
             @action_dir.action,
             name,
             :output,
-            @data.is_a?(HaveAPI::Client::ResourceInstance) ? @data : @data.response,
+            @data,
         ]
 
       else

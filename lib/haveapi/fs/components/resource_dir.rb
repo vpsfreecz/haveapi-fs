@@ -65,7 +65,23 @@ module HaveAPI::Fs::Components
           # need to load it all, a single query should be sufficient.
           begin
             obj = @resource.show(id, meta: meta_params)
-            [ResourceInstanceDir, obj]
+
+            case @resource.actions[:show].output_layout
+            when :object
+              [ResourceInstanceDir, obj]
+
+            when :hash
+              [ResourceInstanceDir, HaveAPI::Fs::HashWrapper.new(
+                  @resource.instance_variable_get('@client'),
+                  @resource.instance_variable_get('@api'),
+                  @resource,
+                  @resource.actions[:show],
+                  obj.response
+              )]
+
+            else
+              fail "Unexpected layout '#{@resource.actions[:show].output_layout}'"
+            end
 
           rescue HaveAPI::Client::ActionFailed
             # Not found

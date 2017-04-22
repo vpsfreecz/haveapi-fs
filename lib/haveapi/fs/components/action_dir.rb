@@ -64,8 +64,26 @@ module HaveAPI::Fs::Components
               ret,
           )
 
+        when :hash
+          res = HaveAPI::Fs::HashWrapper.new(
+              @resource.instance_variable_get('@client'),
+              @resource.instance_variable_get('@api'),
+              @resource,
+              @action,
+              ret.response,
+          )
+
+        when :hash_list
+          res = HaveAPI::Fs::HashListWrapper.new(
+              @resource.instance_variable_get('@client'),
+              @resource.instance_variable_get('@api'),
+              @resource,
+              @action,
+              ret.response,
+          )
+
         else
-          res = ret
+          res = ret.response
         end
 
         children[:output].data = res

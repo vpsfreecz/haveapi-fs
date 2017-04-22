@@ -5,7 +5,7 @@ module HaveAPI::Fs::Components
 
     def initialize(r)
       @resource = r
-      @instance = r.is_a?(HaveAPI::Client::ResourceInstance)
+      @instance = r.is_a?(HaveAPI::Client::ResourceInstance) || r.is_a?(HaveAPI::Fs::HashWrapper)
 
       super()
     end
