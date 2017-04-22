@@ -6,7 +6,7 @@ require 'haveapi/fs/version'
 Gem::Specification.new do |spec|
   spec.name          = 'haveapi-fs'
   spec.version       = HaveAPI::Fs::VERSION
-  spec.date          = '2017-02-10'
+  spec.date          = '2017-04-22'
   spec.authors       = ['Jakub Skokan']
   spec.email         = ['jakub.skokan@vpsfree.cz']
   spec.summary       =
@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry', '~> 0.10.3'
 
   spec.add_runtime_dependency 'rfusefs', '~> 1.0.3'
-  spec.add_runtime_dependency 'haveapi-client', '~> 0.8.0'
+  spec.add_runtime_dependency 'haveapi-client', '~> 0.9.0'
   spec.add_runtime_dependency 'md2man', '~> 5.1.1'
   spec.add_runtime_dependency 'highline', '~> 1.7.8'
 end
