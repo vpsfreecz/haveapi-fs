@@ -1,3 +1,6 @@
+* Tue Sep 12 2017 - version 0.10.0
+- Require haveapi-client v0.10
+
 * Sat Apr 22 2017 - version 0.9.0
 - Wrapper for hash and hash_list formats, so that they behave the same as
   object and object_list
